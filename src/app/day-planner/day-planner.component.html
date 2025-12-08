@@ -11,7 +11,7 @@
           [appHighlight]="task.isDueToday"
           (click)="selectTask(task)">
           {{ task.name }} -
-          {{ task.time | date: 'shortTime' : 'UTC'}},
+          {{ task.time | date: 'mediumDate' }},
           {{ task.time | timeLeft }}
         </button>
       </div>

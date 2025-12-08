@@ -1,48 +1,35 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'timeLeft',})
+  name: 'timeLeft',
+})
 export class TimeLeftPipe implements PipeTransform {
   transform(dueDate: Date): string {
     if (!dueDate) return 'No due date provided';
 
-    const now = new Date();
-    const secondsLeft = this.calculateSecondsDifference(dueDate, now);
+    const today = this.startOfDay(new Date());
+    const dueDay = this.startOfDay(new Date(dueDate));
+    const daysLeft = this.calculateDayDifference(dueDay, today);
 
-    if (secondsLeft <= 0) {
+    if (daysLeft < 0) {
       return 'Time is up';
     }
-    const timeUnits = this.calculateTimeUnits(secondsLeft)
+    if (daysLeft === 0) {
+      return 'Due today';
+    }
 
-    const timeLeft = this.formatTimeUnits(timeUnits)
-
-    return timeLeft + " left"
-
+  return `${daysLeft} day${daysLeft === 1 ? '' : 's'} left`;
   }
 
-  private calculateSecondsDifference(dueDate: Date, currentDate: Date): number {
-    return Math.floor((dueDate.getTime() - currentDate.getTime()) / 1000);
+  private startOfDay(date: Date): Date {
+    const normalizedDate = new Date(date);
+    normalizedDate.setHours(0, 0, 0, 0);
+    return normalizedDate;
   }
 
-  private calculateTimeUnits(secondsLeft: number): { days: number; hours: number; minutes: number } {
-    const days = Math.floor(secondsLeft / (3600 * 24));
-    const hours = Math.floor((secondsLeft % (3600 * 24)) / 3600);
-    const minutes = Math.floor((secondsLeft % 3600) / 60);
-
-    return { days, hours, minutes };
-  }
-
-  private formatTimeUnits(timeUnits: { days: number; hours: number; minutes: number }): string {
-    let result = '';
-    if (timeUnits.days > 0) {
-      result += `${timeUnits.days} day${timeUnits.days > 1 ? 's' : ''} `;
-    }
-    if (timeUnits.hours > 0) {
-      result += `${timeUnits.hours} hour${timeUnits.hours > 1 ? 's' : ''} `;
-    }
-    if (timeUnits.minutes > 0) {
-      result += `${timeUnits.minutes} minute${timeUnits.minutes > 1 ? 's' : ''} `;
-    }
-    return result.trim();
+  private calculateDayDifference(dueDate: Date, currentDate: Date): number {
+    const millisecondsInDay = 24 * 60 * 60 * 1000;
+    const difference = dueDate.getTime() - currentDate.getTime();
+    return Math.round(difference / millisecondsInDay);
   }
 }
