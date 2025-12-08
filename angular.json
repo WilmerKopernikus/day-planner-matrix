@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "app-practice": {
+    "day-planner-matrix": {
       "projectType": "application",
       "schematics": {},
       "root": "",
