@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 import { DayPlannerComponent } from './day-planner/day-planner.component';
-import { MatrixRainComponent } from "./matrix-rain/matrix-rain.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [DayPlannerComponent, MatrixRainComponent],
-  templateUrl: './app.html',
+  imports: [DayPlannerComponent],   // we only need this for now
+  templateUrl: './app.html',        // this is your template file
   styleUrl: './app.css'
 })
 export class AppComponent {

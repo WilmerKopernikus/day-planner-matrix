@@ -1,12 +1,11 @@
+import { DayPlannerComponent } from './day-planner/day-planner.component';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DayPlannerComponent } from './day-planner/day-planner.component';
-import { MatrixRainComponent } from "./matrix-rain/matrix-rain.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, DayPlannerComponent, MatrixRainComponent],
+  imports: [CommonModule, DayPlannerComponent], // keep this, or even empty [] if you don't use common directives
   templateUrl: './app.html',
 })
 export class App {
