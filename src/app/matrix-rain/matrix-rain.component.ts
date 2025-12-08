@@ -1,12 +1,6 @@
 import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, PLATFORM_ID, ViewChild } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
-declare global {
-  interface Window {
-    THREE?: any;
-  }
-}
-
 @Component({
   selector: 'app-matrix-rain',
   standalone: true,
@@ -18,7 +12,7 @@ export class MatrixRainComponent implements AfterViewInit, OnDestroy {
 
   private fontSize = 18;
   private columns: number[] = [];
-  private texture: any;
+  private texture?: any;
   private canvas?: HTMLCanvasElement;
   private ctx?: CanvasRenderingContext2D | null;
   private renderer?: any;
@@ -26,6 +20,7 @@ export class MatrixRainComponent implements AfterViewInit, OnDestroy {
   private camera?: any;
   private animationFrameId?: number;
   private destroyed = false;
+  private hasThreeRenderer = false;
 
   private get isBrowser(): boolean {
     return isPlatformBrowser(this.platformId);
@@ -47,11 +42,12 @@ export class MatrixRainComponent implements AfterViewInit, OnDestroy {
     }
 
     try {
-      const THREE = await this.loadThree();
+      const three = await this.loadThree();
       if (this.destroyed) {
         return;
       }
-      this.initScene(THREE);
+
+      this.initScene(three);
       this.resetColumns();
       this.animate();
       window.addEventListener('resize', this.handleResize);
@@ -70,7 +66,7 @@ export class MatrixRainComponent implements AfterViewInit, OnDestroy {
   }
 
   private handleResize = (): void => {
-    if (!this.renderer || !this.canvas || !this.texture) {
+    if (!this.canvas) {
       return;
     }
 
@@ -80,28 +76,37 @@ export class MatrixRainComponent implements AfterViewInit, OnDestroy {
 
     this.canvas.width = width;
     this.canvas.height = height;
-    this.renderer.setSize(width, height);
+    if (this.renderer && this.hasThreeRenderer) {
+      this.renderer.setSize(width, height);
+    }
     this.resetColumns();
   };
 
-  private async loadThree(): Promise<any> {
-    if ((window as Window).THREE) {
-      return (window as Window).THREE;
-    }
+  private async loadThree(): Promise<any | undefined> {
+    try {
+      const existingGlobal = (window as Window & { THREE?: any }).THREE;
+      if (existingGlobal) {
+        return existingGlobal;
+      }
 
-    await new Promise<void>((resolve, reject) => {
       const script = document.createElement('script');
       script.src = 'https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.min.js';
       script.async = true;
-      script.onload = () => resolve();
-      script.onerror = (err) => reject(err);
-      document.body.appendChild(script);
-    });
 
-    return (window as Window).THREE;
+      await new Promise<void>((resolve, reject) => {
+        script.onload = () => resolve();
+        script.onerror = (err) => reject(err);
+        document.body.appendChild(script);
+      });
+
+      return (window as Window & { THREE?: any }).THREE;
+    } catch (error) {
+      console.warn('Falling back to canvas-only matrix rain (Three.js unavailable).', error);
+      return undefined;
+    }
   }
 
-  private initScene(THREE: any): void {
+  private initScene(three?: any): void {
     const hostElement = this.rendererHost.nativeElement;
     const width = hostElement.clientWidth || window.innerWidth;
     const height = hostElement.clientHeight || window.innerHeight;
@@ -111,24 +116,31 @@ export class MatrixRainComponent implements AfterViewInit, OnDestroy {
     this.canvas.width = width;
     this.canvas.height = height;
 
-    this.texture = new THREE.CanvasTexture(this.canvas);
-    this.texture.minFilter = THREE.LinearFilter;
-    this.texture.magFilter = THREE.NearestFilter;
-
-    this.scene = new THREE.Scene();
-    this.camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 10);
-    this.camera.position.z = 1;
-
-    const geometry = new THREE.PlaneGeometry(2, 2);
-    const material = new THREE.MeshBasicMaterial({ map: this.texture, transparent: true });
-    const mesh = new THREE.Mesh(geometry, material);
-    this.scene.add(mesh);
-
-    this.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    this.renderer.setSize(width, height);
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     hostElement.innerHTML = '';
-    hostElement.appendChild(this.renderer.domElement);
+
+    if (three) {
+      this.texture = new three.CanvasTexture(this.canvas);
+      this.texture.minFilter = three.LinearFilter;
+      this.texture.magFilter = three.NearestFilter;
+
+      this.scene = new three.Scene();
+      this.camera = new three.OrthographicCamera(-1, 1, 1, -1, 0, 10);
+      this.camera.position.z = 1;
+
+      const geometry = new three.PlaneGeometry(2, 2);
+      const material = new three.MeshBasicMaterial({ map: this.texture, transparent: true });
+      const mesh = new three.Mesh(geometry, material);
+      this.scene.add(mesh);
+
+      this.renderer = new three.WebGLRenderer({ alpha: true, antialias: true });
+      this.renderer.setSize(width, height);
+      this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      hostElement.appendChild(this.renderer.domElement);
+      this.hasThreeRenderer = true;
+    } else {
+      hostElement.appendChild(this.canvas);
+      this.hasThreeRenderer = false;
+    }
   }
 
   private resetColumns(): void {
@@ -138,15 +150,15 @@ export class MatrixRainComponent implements AfterViewInit, OnDestroy {
   }
 
   private animate = (): void => {
-    if (this.destroyed || !this.renderer || !this.scene || !this.camera) {
+    if (this.destroyed || !this.ctx || !this.canvas) {
       return;
     }
 
     this.drawCharacters();
-    if (this.texture) {
+    if (this.texture && this.renderer && this.scene && this.camera && this.hasThreeRenderer) {
       this.texture.needsUpdate = true;
+      this.renderer.render(this.scene, this.camera);
     }
-    this.renderer.render(this.scene, this.camera);
     this.animationFrameId = requestAnimationFrame(this.animate);
   };
 
