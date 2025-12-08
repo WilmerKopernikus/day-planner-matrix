@@ -1,0 +1,9 @@
+@if (task) {
+  <div [ngClass]="task.isDueToday ? 'is-due' : ''">
+    {{ task.name }} at {{ task.time }}
+
+    <button class="complete-btn" (click)="onComplete()">
+      Complete Task
+    </button>
+  </div>
+}

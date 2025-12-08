@@ -1,0 +1,9 @@
+/*Styling Task Details */
+.is-due {
+    background-color: #000000; 
+    color: #1aff00; 
+    padding: 10px;
+    border: 2px solid #087627;  
+    margin: 5px 0;
+    box-shadow: 0px 0px 20px rgba(104, 255, 66, 0.47); 
+}
