@@ -1,6 +1,6 @@
 [build]
-  command = "npm run build"
-  publish = "dist/angular-with-ai/browser"
+command = "npm run build"
+publish = "dist/day-planner-matrix/browser"
 
 [[plugins]]
-  package = "@netlify/angular-runtime"
+package = "@netlify/angular-runtime"
