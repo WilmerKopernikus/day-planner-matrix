@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Task } from '../../task.model';
 import { TaskStoreService } from '../task-store.service';
 
 @Component({
   selector: 'app-focus-areas',
   standalone: true,
-  imports: [CommonModule, DatePipe],
+  imports: [CommonModule],
   templateUrl: './focus-areas.component.html',
   styleUrl: './focus-areas.component.css',
 })

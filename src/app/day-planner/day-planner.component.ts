@@ -2,15 +2,12 @@ import { Component, inject } from '@angular/core';
 import { Task } from '../../task.model';
 import { TaskComponent } from '../task/task.component';
 import { AddTaskComponent } from '../add-task/add-task.component';
-import { DatePipe } from '@angular/common';
-import { TimeLeftPipe } from '../time-left.pipe';
-import { HighlightDirective } from '../highlight.directive';
 import { TaskStoreService } from '../task-store.service';
 
 @Component({
   selector: 'app-day-planner',
   standalone: true,
-  imports: [TaskComponent, AddTaskComponent, DatePipe, TimeLeftPipe, HighlightDirective],
+  imports: [TaskComponent, AddTaskComponent],
   templateUrl: './day-planner.component.html',
   styleUrl: './day-planner.component.css'
 })
@@ -28,7 +25,7 @@ export class DayPlannerComponent {
     this.selectedTask = null;
   }
 
-  handleNewTask(taskData: { name: string; date: string; focusArea: string }) {
+  handleNewTask(taskData: { name: string; focusArea: string }) {
     this.taskStore.addTask(taskData);
   }
 }

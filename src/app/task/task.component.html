@@ -1,6 +1,6 @@
 @if (task) {
-  <div [ngClass]="task.isDueToday ? 'is-due' : ''">
-    {{ task.focusArea }} - {{ task.name }} on {{ task.time | date: 'EEEE, MMM d, y' }}
+  <div>
+    {{ task.focusArea }} - {{ task.name }}
 
     <button class="complete-btn" (click)="onComplete()">
       Complete Task

@@ -9,7 +9,7 @@ body {
 
 
 
-input[type="text"], input[type="date"], button {
+input[type="text"], button {
   padding: 8px;
   margin: 5px 0;
   border: 2px solid #087627;  
@@ -57,10 +57,6 @@ button:hover {
 app-task-name-input input::placeholder {
   color: #cbcbcb;
   font-family: monospace;
-}
-
-app-task-date-input input::-webkit-calendar-picker-indicator {
-  filter: invert(1);
 }
 
 .planner-container {
