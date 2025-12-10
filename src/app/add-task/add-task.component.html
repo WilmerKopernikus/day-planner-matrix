@@ -1,4 +1,26 @@
 <div class="add-task-form">
+    <div class="focus-area-row">
+      <input
+        type="text"
+        [value]="newFocusArea"
+        (input)="newFocusArea = $any($event.target).value"
+        placeholder="Add a focus area" />
+    <button type="button" (click)="handleAddFocusArea()">Add Focus Area</button>
+  </div>
+
+  <div class="focus-area-row">
+    <label for="focusAreaSelect">Focus Area</label>
+    <select
+      id="focusAreaSelect"
+      [value]="selectedFocusArea"
+      (change)="handleFocusAreaSelection($event)">
+      <option value="" disabled>Select focus area</option>
+      @for (focusArea of focusAreas; track focusArea) {
+        <option [value]="focusArea">{{ focusArea }}</option>
+      }
+    </select>
+  </div>
+
   <app-task-name-input [(taskName)]="newTaskName"/>
   <app-task-date-input [(taskDate)]="newTaskDate"/>
   <button (click)="addTask()">Add Task</button>

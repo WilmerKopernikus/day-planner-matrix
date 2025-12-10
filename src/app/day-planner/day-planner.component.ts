@@ -17,9 +17,11 @@ const today = new Date();
 })
 export class DayPlannerComponent {
   selectedTask: Task | null = null;
-tasks: Task[] = [
+  focusAreas: string[] = ['Planning', 'Collaboration', 'Delivery', 'Presentation', 'Social'];
+  tasks: Task[] = [
     {
       id: 1,
+      focusArea: 'Collaboration',
       name: 'Meeting with team',
       time: this.startOfDay(new Date()),
       isDueToday: true,
@@ -27,6 +29,7 @@ tasks: Task[] = [
     },
     {
       id: 2,
+      focusArea: 'Presentation',
       name: 'Client presentation',
       time: this.startOfDay(new Date()),
       isDueToday: true,
@@ -34,6 +37,7 @@ tasks: Task[] = [
     },
     {
       id: 3,
+      focusArea: 'Delivery',
       name: 'Project deadline',
       time: this.addDaysToDate(today, 30),
       isDueToday: false,
@@ -41,6 +45,7 @@ tasks: Task[] = [
     },
     {
       id: 4,
+      focusArea: 'Social',
       name: 'Team outing',
       time: this.startOfDay(new Date('Sat Apr 20 2024 00:00:00 GMT+0530')),
       isDueToday: false,
@@ -48,6 +53,7 @@ tasks: Task[] = [
     },
     {
       id: 5,
+      focusArea: 'Planning',
       name: 'Software update',
       time: this.startOfDay(new Date()),
       isDueToday: true,
@@ -63,11 +69,14 @@ tasks: Task[] = [
     this.selectedTask = null;
   }
 
-  handleNewTask(taskData: { name: string; date: string }) {
+  handleNewTask(taskData: { name: string; date: string; focusArea: string }) {
+
+    this.addFocusArea(taskData.focusArea);
 
     const taskDate = this.startOfDay(new Date(taskData.date));
     const newTask = {
       id: this.tasks.length + 1,
+      focusArea: taskData.focusArea,
       name: taskData.name,
       time: taskDate,
       completed: false,
@@ -76,6 +85,13 @@ tasks: Task[] = [
 
     this.tasks.push(newTask);
   }
+    addFocusArea(focusArea: string) {
+    const trimmed = focusArea.trim();
+    if (trimmed && !this.focusAreas.includes(trimmed)) {
+      this.focusAreas = [...this.focusAreas, trimmed];
+    }
+  }
+
 
   private startOfDay(date: Date): Date {
     const normalizedDate = new Date(date);

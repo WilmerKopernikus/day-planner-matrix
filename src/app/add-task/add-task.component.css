@@ -1,0 +1,44 @@
+.add-task-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.focus-area-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.focus-area-row label {
+  min-width: 90px;
+  color: #50ff56;
+}
+
+.focus-area-row input,
+.focus-area-row select {
+  flex: 1;
+  padding: 8px;
+  background-color: #0b0b0b;
+  color: #e8ffe8;
+  border: 1px solid #1c7a3d;
+  border-radius: 4px;
+}
+
+.focus-area-row button,
+.add-task-form button {
+  padding: 8px 12px;
+  background-color: #004a2a;
+  color: #bfffbd;
+  border: 1px solid #1c7a3d;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+
+.focus-area-row button:hover,
+.add-task-form button:hover {
+  background-color: #066338;
+}
