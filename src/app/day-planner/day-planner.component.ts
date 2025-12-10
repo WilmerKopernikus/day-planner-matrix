@@ -18,7 +18,7 @@ export class DayPlannerComponent {
   private readonly taskStore = inject(TaskStoreService);
   readonly tasks = this.taskStore.tasks;
   readonly focusAreas = this.taskStore.focusAreas;
-  selectedTask = this.tasks()[0] ?? null;
+  selectedTask: Task | null = this.tasks()[0] ?? null;
 
 
   selectTask(task: Task) {
