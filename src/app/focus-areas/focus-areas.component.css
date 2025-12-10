@@ -3,6 +3,36 @@
   margin: 40px auto;
 }
 
+.add-focus-area {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.add-focus-area input {
+  flex: 1;
+  padding: 8px;
+  background-color: #0b0b0b;
+  color: #e8ffe8;
+  border: 1px solid #1c7a3d;
+  border-radius: 4px;
+}
+
+.add-focus-area button {
+  padding: 8px 12px;
+  background-color: #004a2a;
+  color: #bfffbd;
+  border: 1px solid #1c7a3d;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+
+.add-focus-area button:hover {
+  background-color: #066338;
+}
+
 .focus-area-buttons {
   display: flex;
   flex-direction: column;
@@ -65,5 +95,8 @@
 @media (max-width: 600px) {
   .focus-areas-container {
     width: 90%;
+  }
+  .add-focus-area {
+    flex-direction: column;
   }
 }

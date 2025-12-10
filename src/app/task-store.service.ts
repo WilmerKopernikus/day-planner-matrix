@@ -10,7 +10,7 @@ export class TaskStoreService {
     {
       id: 1,
       focusArea: 'Lernen',
-      name: 'GitHub Copilot Certification Skill Path',
+      name: 'GitHub Copilot Certification',
       time: this.startOfDay(new Date()),
       isDueToday: true,
       completed: false,

@@ -1,6 +1,15 @@
 <div class="focus-areas-container">
   <h1 class="page-title">Focus Areas</h1>
 
+    <div class="add-focus-area">
+    <input
+      type="text"
+      [value]="newFocusArea"
+      (input)="newFocusArea = $any($event.target).value"
+      placeholder="Add a focus area" />
+    <button type="button" (click)="addFocusArea()">Add Focus Area</button>
+  </div>
+
   <div class="focus-area-buttons">
     @for (area of focusAreas(); track area) {
       <button

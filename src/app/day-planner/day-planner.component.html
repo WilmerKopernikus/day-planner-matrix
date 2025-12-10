@@ -3,7 +3,6 @@
   <!-- Add Task form at the top -->
   <app-add-task
     [focusAreas]="focusAreas()"
-    (addFocusArea)="addFocusArea($event)"
     (addTaskEvent)="handleNewTask($event)"/>
 
   @for (task of tasks(); track task.id) {

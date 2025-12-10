@@ -5,7 +5,7 @@ import { AddTaskComponent } from '../add-task/add-task.component';
 import { DatePipe } from '@angular/common';
 import { TimeLeftPipe } from '../time-left.pipe';
 import { HighlightDirective } from '../highlight.directive';
-import { TaskStoreService } from "../task-store.service";
+import { TaskStoreService } from '../task-store.service';
 
 @Component({
   selector: 'app-day-planner',
@@ -20,7 +20,6 @@ export class DayPlannerComponent {
   readonly focusAreas = this.taskStore.focusAreas;
   selectedTask: Task | null = this.tasks()[0] ?? null;
 
-
   selectTask(task: Task) {
     this.selectedTask = task;
   }
@@ -31,9 +30,5 @@ export class DayPlannerComponent {
 
   handleNewTask(taskData: { name: string; date: string; focusArea: string }) {
     this.taskStore.addTask(taskData);
-  }
-
-  addFocusArea(focusArea: string) {
-    this.taskStore.addFocusArea(focusArea);
   }
 }
