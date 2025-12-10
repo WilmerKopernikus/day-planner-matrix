@@ -2,7 +2,7 @@
   <h1 class="page-title">Focus Areas</h1>
 
   <div class="focus-area-buttons">
-    @for (area of focusAreas; track area) {
+    @for (area of focusAreas(); track area) {
       <button
         class="task-button"
         [class.selected]="area === selectedArea"
