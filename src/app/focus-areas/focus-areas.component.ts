@@ -21,7 +21,7 @@ export class FocusAreasComponent {
     this.selectedArea = area;
   }
 
-   addFocusArea() {
+  addFocusArea() {
     const trimmed = this.newFocusArea.trim();
     if (!trimmed) {
       return;
