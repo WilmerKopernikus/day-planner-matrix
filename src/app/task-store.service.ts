@@ -6,48 +6,9 @@ export class TaskStoreService {
   private readonly today = this.startOfDay(new Date());
 
   private readonly initialTasks: Task[] = [
+
     {
       id: 1,
-      focusArea: 'Collaboration',
-      name: 'Meeting with team',
-      time: this.startOfDay(new Date()),
-      isDueToday: true,
-      completed: false,
-    },
-    {
-      id: 2,
-      focusArea: 'Presentation',
-      name: 'Client presentation',
-      time: this.startOfDay(new Date()),
-      isDueToday: true,
-      completed: false,
-    },
-    {
-      id: 3,
-      focusArea: 'Delivery',
-      name: 'Project deadline',
-      time: this.addDaysToDate(new Date(), 30),
-      isDueToday: false,
-      completed: false,
-    },
-    {
-      id: 4,
-      focusArea: 'Social',
-      name: 'Team outing',
-      time: this.startOfDay(new Date('Sat Apr 20 2024 00:00:00 GMT+0530')),
-      isDueToday: false,
-      completed: true,
-    },
-    {
-      id: 5,
-      focusArea: 'Planning',
-      name: 'Software update',
-      time: this.startOfDay(new Date()),
-      isDueToday: true,
-      completed: false,
-    },
-    {
-      id: 6,
       focusArea: 'Lernen',
       name: 'GitHub Copilot Certification Skill Path',
       time: this.startOfDay(new Date()),
@@ -55,7 +16,7 @@ export class TaskStoreService {
       completed: false,
     },
     {
-      id: 7,
+      id: 2,
       focusArea: 'Bewerbungen',
       name: 'Client presentation',
       time: this.startOfDay(new Date()),
@@ -63,7 +24,7 @@ export class TaskStoreService {
       completed: false,
     },
     {
-      id: 8,
+      id: 3,
       focusArea: 'Projekte',
       name: 'Banderas Nila López',
       time: this.addDaysToDate(new Date(), 30),
@@ -71,7 +32,7 @@ export class TaskStoreService {
       completed: false,
     },
     {
-      id: 9,
+      id: 4,
       focusArea: 'Deutsch',
       name: 'Traum und Traumdeutung - CG Jung',
       time: this.startOfDay(new Date('Sat Apr 20 2024 00:00:00 GMT+0530')),
@@ -79,9 +40,9 @@ export class TaskStoreService {
       completed: true,
     },
     {
-      id: 10,
+      id: 5,
       focusArea: 'Ordnung',
-      name: 'Software update',
+      name: 'Comprar veneno contra las cucarachas',
       time: this.startOfDay(new Date()),
       isDueToday: true,
       completed: false,
