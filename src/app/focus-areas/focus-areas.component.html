@@ -1,0 +1,27 @@
+<div class="focus-areas-container">
+  <h1 class="page-title">Focus Areas</h1>
+
+  <div class="focus-area-buttons">
+    @for (area of focusAreas; track area) {
+      <button
+        class="task-button"
+        [class.selected]="area === selectedArea"
+        (click)="selectArea(area)">
+        {{ area }}
+      </button>
+    }
+  </div>
+
+  @if (selectedArea) {
+    <div class="focus-area-details">
+      <h2>{{ selectedArea }}</h2>
+      <ul>
+        @for (task of tasksForSelectedArea(); track task.id) {
+          <li>
+            {{ task.name }} - {{ task.time | date: 'EEE, MMM d, y' }}
+          </li>
+        }
+      </ul>
+    </div>
+  }
+</div>

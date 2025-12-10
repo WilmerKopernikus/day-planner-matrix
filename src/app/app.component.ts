@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { DayPlannerComponent } from './day-planner/day-planner.component';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [DayPlannerComponent],   // we only need this for now
-  templateUrl: './app.html',        // this is your template file
+  imports: [RouterOutlet, RouterLink, RouterLinkActive],
+  templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class AppComponent {
