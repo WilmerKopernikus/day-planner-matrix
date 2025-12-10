@@ -21,7 +21,7 @@ describe('AppComponent', () => {
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
     const links = Array.from(compiled.querySelectorAll('nav a')).map((link) => link.textContent);
-    expect(links).toContain('Daily Planner');
+    expect(links).toContain('Add Task');
     expect(links).toContain('Focus Areas');
   });
 });

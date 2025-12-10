@@ -9,5 +9,5 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
   styleUrl: './app.css'
 })
 export class AppComponent {
-  title = 'Daily Planner';
+   title = 'The Matrix Labyrinth';
 }
