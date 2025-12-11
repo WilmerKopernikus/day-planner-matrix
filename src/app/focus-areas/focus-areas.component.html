@@ -17,7 +17,7 @@
 
   @if (selectedArea) {
   <div class="focus-area-details">
-    <h2>{{ selectedArea }}</h2>
+    <h2 class="page-title selected-area-title">{{ selectedArea }}</h2>
     <div class="focus-area-tasks">
       @for (task of tasksForSelectedArea(); track task.id) {
       <div>

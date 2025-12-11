@@ -13,9 +13,9 @@
   width: 100%;
   padding: 12px 14px;
   margin: 6px 0;
-  background-color: #131313;
+  background-color: #000000;
   color: #50ff56;
-  text-align: left;
+  text-align: center;
   cursor: pointer;
   font-size: 0.95rem;
   transition: background-color 0.2s,
@@ -25,13 +25,10 @@
 }
 
 .task-button:hover {
-  background-color: #131313;
-  border-color: #008a6a;
   transform: translateY(-2px);
 }
 
 .task-button.selected {
-  background-color: #001d15;
   color: #bfffc1;
   text-shadow: 0px 0px 10px rgba(144, 255, 117, 0.825);
 }
@@ -47,7 +44,7 @@
   outline-offset: 2px;
 }
 
-.focus-area-details h2 {
+.selected-area-title {
   margin-top: 30px;
   margin-bottom: 15px;
   color: #50ff56;
