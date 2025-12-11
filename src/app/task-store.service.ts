@@ -46,14 +46,27 @@ export class TaskStoreService {
     }
   }
 
-  addTask(taskData: { name: string; focusArea: string }) {
+  addTask(taskData: { name: string; focusArea: string; subProjectId?: number | null }) {
     const newTask: Task = {
       id: this.nextTaskId(),
       focusArea: taskData.focusArea,
       name: taskData.name,
+      subProjectId: taskData.subProjectId ?? undefined,
     };
 
-    this.tasks.update((tasks) => [...tasks, newTask]);
+    const targetSubProjectId = taskData.subProjectId;
+
+    this.tasks.update((tasks) => {
+      const updatedTasks = tasks.map((task) => {
+        if (task.id === targetSubProjectId) {
+          return { ...task, isSubProject: true };
+        }
+
+        return task;
+      });
+
+      return [...updatedTasks, newTask];
+    });
     this.addFocusArea(taskData.focusArea, false);
     this.persistState();
   }
@@ -74,7 +87,12 @@ export class TaskStoreService {
 
 
   removeTask(taskId: number) {
-    this.tasks.update((tasks) => tasks.filter((task) => task.id !== taskId));
+        this.tasks.update((tasks) => {
+      const remaining = tasks.filter((task) => task.id !== taskId);
+      return remaining.map((task) =>
+        task.subProjectId === taskId ? { ...task, subProjectId: undefined } : task
+      );
+    });
     this.persistState();
   }
 

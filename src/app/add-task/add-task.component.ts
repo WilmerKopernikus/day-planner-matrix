@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { TaskNameInputComponent } from '../task-name-input/task-name-input.component';
+import { Task } from '../../task.model';
 
 @Component({
   selector: 'app-add-task',
@@ -10,18 +11,25 @@ import { TaskNameInputComponent } from '../task-name-input/task-name-input.compo
 })
 export class AddTaskComponent implements OnChanges {
   @Input() focusAreas: string[] = [];
+  @Input() tasks: Task[] = [];
   newTaskName = '';
   selectedFocusArea = '';
+  selectedSubProjectId: number | null = null;
 
   @Output() addTaskEvent = new EventEmitter<{
     name: string;
     focusArea: string;
+    subProjectId?: number | null;
   }>();
   @Output() addFocusArea = new EventEmitter<string>();
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['focusAreas'] && !this.selectedFocusArea && this.focusAreas.length) {
       this.selectedFocusArea = this.focusAreas[0];
+    }
+
+    if (changes['selectedFocusArea'] || changes['tasks'] || changes['focusAreas']) {
+      this.syncSubProjectSelection();
     }
   }
 
@@ -30,6 +38,7 @@ export class AddTaskComponent implements OnChanges {
       this.addTaskEvent.emit({
         name: this.newTaskName,
         focusArea: this.selectedFocusArea,
+        subProjectId: this.selectedSubProjectId,
       });
       this.newTaskName = '';
     }
@@ -38,5 +47,35 @@ export class AddTaskComponent implements OnChanges {
   handleFocusAreaSelection(event: Event) {
     const target = event.target as HTMLSelectElement;
     this.selectedFocusArea = target.value;
+    this.syncSubProjectSelection();
+  }
+
+  handleSubProjectSelection(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    const value = target.value;
+    this.selectedSubProjectId = value ? Number(value) : null;
+  }
+
+  availableSubProjects(): Task[] {
+    if (!this.selectedFocusArea) {
+      return [];
+    }
+
+    return this.tasks.filter((task) => task.focusArea === this.selectedFocusArea);
+  }
+
+  private syncSubProjectSelection() {
+    const available = this.availableSubProjects();
+    if (!available.length) {
+      this.selectedSubProjectId = null;
+      return;
+    }
+
+    if (this.selectedSubProjectId) {
+      const stillValid = available.some((task) => task.id === this.selectedSubProjectId);
+      if (!stillValid) {
+        this.selectedSubProjectId = null;
+      }
+    }
   }
 }

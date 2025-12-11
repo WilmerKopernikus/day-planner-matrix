@@ -8,6 +8,16 @@
       }
     </select>
   </div>
+    <div class="focus-area-row">
+    <label for="subProjectSelect">Sub-Project</label>
+    <select id="subProjectSelect" [value]="selectedSubProjectId ?? ''" (change)="handleSubProjectSelection($event)">
+      <option value="">No Sub-Project</option>
+      @for (task of availableSubProjects(); track task.id) {
+      <option [value]="task.id">{{ task.name }}</option>
+      }
+    </select>
+  </div>
   <app-task-name-input [(taskName)]="newTaskName" />
+
   <button (click)="addTask()">Add Task</button>
 </div>

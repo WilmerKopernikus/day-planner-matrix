@@ -1,4 +1,4 @@
 <h1 class="page-title">Add Tasks</h1>
 <div class="planner-container">
-  <app-add-task [focusAreas]="focusAreas()" (addTaskEvent)="handleNewTask($event)" />
+  <app-add-task [focusAreas]="focusAreas()" [tasks]="tasks()" (addTaskEvent)="handleNewTask($event)" />
 </div>

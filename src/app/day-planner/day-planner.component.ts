@@ -12,8 +12,9 @@ import { TaskStoreService } from '../task-store.service';
 export class DayPlannerComponent {
   private readonly taskStore = inject(TaskStoreService);
   readonly focusAreas = this.taskStore.focusAreas;
+  readonly tasks = this.taskStore.tasks;
 
-  handleNewTask(taskData: { name: string; focusArea: string }) {
+  handleNewTask(taskData: { name: string; focusArea: string; subProjectId?: number | null }) {
     this.taskStore.addTask(taskData);
   }
 }

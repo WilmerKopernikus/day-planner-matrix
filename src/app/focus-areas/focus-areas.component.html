@@ -20,8 +20,23 @@
   @if (selectedArea) {
   <div class="focus-area-details">
     <h2 class="page-title selected-area-title">{{ selectedArea }}</h2>
+        @if (subProjectsForSelectedArea().length) {
+    <div class="sub-projects">
+      <h3 class="sub-projects-title">Sub-Projects</h3>
+      <div class="focus-area-tasks">
+        @for (subProject of subProjectsForSelectedArea(); track subProject.id) {
+        <div>
+          <button class="task-button" type="button" [class.selected]="subProject.id === selectedSubProjectId"
+            (click)="selectSubProject(subProject.id)">
+            {{ subProject.name }}
+          </button>
+        </div>
+        }
+      </div>
+    </div>
+    }
     <div class="focus-area-tasks">
-      @for (task of tasksForSelectedArea(); track task.id) {
+      @for (task of selectedSubProjectId ? tasksForSelectedSubProject() : tasksForSelectedArea(); track task.id) {
       <div>
         <button class="task-button" type="button">
           {{ task.name }}

@@ -15,10 +15,12 @@ export class FocusAreasComponent {
   readonly tasks = this.taskStore.tasks;
   readonly focusAreas = this.taskStore.focusAreas;
   selectedArea: string | null = null;
+  selectedSubProjectId: number | null = null;
   newFocusArea = '';
 
   selectArea(area: string) {
     this.selectedArea = area;
+    this.selectedSubProjectId = null;
   }
 
   addFocusArea() {
@@ -39,10 +41,16 @@ export class FocusAreasComponent {
     if (this.selectedArea === area) {
       this.selectedArea = remainingAreas.length ? remainingAreas[0] : null;
     }
+        if (this.selectedArea === null) {
+      this.selectedSubProjectId = null;
+    }
   }
 
   deleteTask(taskId: number) {
     this.taskStore.removeTask(taskId);
+        if (this.selectedSubProjectId === taskId) {
+      this.selectedSubProjectId = null;
+    }
   }
 
   tasksForSelectedArea(): Task[] {
@@ -50,6 +58,31 @@ export class FocusAreasComponent {
       return [];
     }
 
-    return this.tasks().filter((task) => task.focusArea === this.selectedArea);
+    const subProjectIds = new Set(this.subProjectsForSelectedArea().map((task) => task.id));
+    return this.tasks().filter(
+      (task) => task.focusArea === this.selectedArea && !subProjectIds.has(task.id) && !task.subProjectId
+    );
+  }
+
+  subProjectsForSelectedArea(): Task[] {
+    if (!this.selectedArea) {
+      return [];
+    }
+
+    return this.tasks().filter(
+      (task) => task.focusArea === this.selectedArea && task.isSubProject
+    );
+  }
+
+  selectSubProject(subProjectId: number) {
+    this.selectedSubProjectId = subProjectId;
+  }
+
+  tasksForSelectedSubProject(): Task[] {
+    if (!this.selectedSubProjectId) {
+      return [];
+    }
+
+    return this.tasks().filter((task) => task.subProjectId === this.selectedSubProjectId);
   }
 }

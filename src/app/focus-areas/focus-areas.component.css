@@ -67,6 +67,13 @@
   text-align: center;
 }
 
+.sub-projects-title {
+  margin: 20px 0 10px;
+  color: #bfffc1;
+  text-shadow: 4px 4px 12px rgba(104, 255, 66, 0.781);
+  font-size: 1.2em;
+  text-align: center;
+}
 @media (max-width: 1024px) {
   .focus-areas-container {
     width: 80%;
