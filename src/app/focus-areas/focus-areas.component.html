@@ -1,7 +1,11 @@
 <div class="focus-areas-container">
   <div class="add-focus-area">
-    <input type="text" [value]="newFocusArea" (input)="newFocusArea = $any($event.target).value"
-      placeholder="Add a focus area" />
+    <input
+      type="text"
+      [value]="newFocusArea"
+      (input)="newFocusArea = $any($event.target).value"
+      placeholder="Add a focus area"
+    />
     <button type="button" (click)="addFocusArea()">Add Focus Area</button>
   </div>
 
@@ -9,9 +13,19 @@
 
   <div class="focus-area-buttons">
     @for (area of focusAreas(); track area) {
-      <button class="task-button" type="button" [class.selected]="area === selectedArea" (click)="selectArea(area)">
+            <button
+        class="task-button"
+        type="button"
+        [class.selected]="area === selectedArea"
+        (click)="selectArea(area)"
+      >
         {{ area }}
-        <span class="delete-icon" (click)="deleteFocusArea(area); $event.stopPropagation()" aria-label="Delete focus area">×</span>
+                <span
+          class="delete-icon"
+          (click)="deleteFocusArea(area); $event.stopPropagation()"
+          aria-label="Delete focus area"
+          >×</span
+        >
       </button>
     }
   </div>
@@ -26,11 +40,20 @@
           <div class="focus-area-tasks">
             @for (subProject of subProjectsForSelectedArea(); track subProject.id) {
               <div>
-                <button class="task-button" type="button" [class.selected]="subProject.id === selectedSubProjectId"
+                                <button
+                  class="task-button"
+                  type="button"
+                  [class.selected]="subProject.id === selectedSubProjectId"
+                  (click)="selectSubProject(subProject.id)"
+                >
                   (click)="selectSubProject(subProject.id)">
                   {{ subProject.name }}
-                  <span class="delete-icon" (click)="deleteSubProject(subProject.id, $event)"
-                    aria-label="Delete sub-project">×</span>
+                  <span
+                    class="delete-icon"
+                    (click)="deleteSubProject(subProject.id, $event)"
+                    aria-label="Delete sub-project"
+                    >×</span
+                  >
                 </button>
               </div>
             }
@@ -46,8 +69,12 @@
               <div>
                 <button class="task-button" type="button">
                   {{ task.name }}
-                  <span class="delete-icon" (click)="deleteTask(task.id); $event.stopPropagation()"
-                    aria-label="Delete task">×</span>
+                  <span
+                    class="delete-icon"
+                    (click)="deleteTask(task.id); $event.stopPropagation()"
+                    aria-label="Delete task"
+                    >×</span
+                  >
                 </button>
               </div>
             }
@@ -59,11 +86,17 @@
             <div>
               <button class="task-button" type="button">
                 {{ task.name }}
-                <span class="delete-icon" (click)="deleteTask(task.id); $event.stopPropagation()" aria-label="Delete task">×</span>
+                                <span
+                  class="delete-icon"
+                  (click)="deleteTask(task.id); $event.stopPropagation()"
+                  aria-label="Delete task"
+                  >×</span
+                >
               </button>
             </div>
           }
-
+        </div>
+      }
     </div>
   }
 </div>
