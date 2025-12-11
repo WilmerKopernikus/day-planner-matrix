@@ -76,10 +76,16 @@ export class FocusAreasComponent {
     this.selectedSubProjectId = subProjectId;
   }
 
-  deleteSubProject(subProjectId: number) {
+  deleteSubProject(subProjectId: number, event?: Event) {
+    event?.stopPropagation();
     this.taskStore.removeTask(subProjectId);
 
-    if (this.selectedSubProjectId === subProjectId) {
+    const remainingSubProjects = this.subProjectsForSelectedArea();
+    const hasSelectedSubProject = remainingSubProjects.some(
+      (task) => task.id === this.selectedSubProjectId
+    );
+
+    if (this.selectedSubProjectId === subProjectId || !hasSelectedSubProject) {
       this.selectedSubProjectId = null;
     }
   }

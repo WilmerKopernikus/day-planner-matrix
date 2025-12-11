@@ -29,7 +29,7 @@
                 <button class="task-button" type="button" [class.selected]="subProject.id === selectedSubProjectId"
                   (click)="selectSubProject(subProject.id)">
                   {{ subProject.name }}
-                  <span class="delete-icon" (click)="deleteSubProject(subProject.id); $event.stopPropagation()"
+                  <span class="delete-icon" (click)="deleteSubProject(subProject.id, $event)"
                     aria-label="Delete sub-project">×</span>
                 </button>
               </div>
@@ -63,7 +63,7 @@
               </button>
             </div>
           }
-      }
+
     </div>
   }
 </div>
