@@ -3,57 +3,6 @@
   margin: 40px auto;
 }
 
-
-.task-button {
-  display: block;
-  width: 100%;
-  padding: 12px 14px;
-  margin: 6px 0;
-  background-color: #000000; 
-  color: #50ff56;
-  text-align: left;
-  cursor: pointer;
-  font-size: 0.95rem;
-  transition: background-color 0.2s,
-              border-color 0.2s,
-              transform 0.15s;
-  font-family: monospace;
-}
-
-.task-button:hover {
-  background-color: #000000;
-  border-color: #008a6a;
-  transform: translateY(-2px);
-  
-}
-
-.task-button.selected {
-  background-color: #000000;
-  color: #bfffc1;
-  text-shadow: 0px 0px 10px rgba(144, 255, 117, 0.825);
-}
-
-.task-button.completed {
-  opacity: 0.5;
-  text-decoration: line-through;
-  cursor: default;
-}
-
-.task-button:focus-visible {
-  outline: 2px solid #aec6d6;
-  outline-offset: 2px;
-}
-
-h2 {
-  margin-top: 30px;
-  margin-bottom: 15px;
-  color: #50ff56;
-  text-shadow: 4px 4px 12px rgba(104, 255, 66, 0.781);
-  font-size: 1.1rem;
-  padding-bottom: 4px;
-  
-}
-
 /* Tablets */
 @media (max-width: 1024px) {
   .planner-container {
