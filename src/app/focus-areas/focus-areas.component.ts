@@ -32,6 +32,19 @@ export class FocusAreasComponent {
     this.selectArea(trimmed);
   }
 
+  deleteFocusArea(area: string) {
+    this.taskStore.removeFocusArea(area);
+    const remainingAreas = this.focusAreas();
+
+    if (this.selectedArea === area) {
+      this.selectedArea = remainingAreas.length ? remainingAreas[0] : null;
+    }
+  }
+
+  deleteTask(taskId: number) {
+    this.taskStore.removeTask(taskId);
+  }
+
   tasksForSelectedArea(): Task[] {
     if (!this.selectedArea) {
       return [];

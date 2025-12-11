@@ -11,7 +11,7 @@
 .task-button {
   display: block;
   width: 100%;
-  padding: 12px 14px;
+  padding: 12px 32px 12px 14px;
   margin: 6px 0;
   background-color: #000000;
   color: #50ff56;
@@ -23,6 +23,7 @@
               border-color 0.2s,
               transform 0.15s;
   font-family: monospace;
+  position: relative;
 }
 
 .task-button:hover {
@@ -38,6 +39,23 @@
 .task-button:focus-visible {
   outline: 2px solid #aec6d6;
   outline-offset: 2px;
+}
+
+.delete-icon {
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  font-weight: bold;
+  color: #c9c9c9;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 4px;
+  line-height: 1;
+}
+
+.delete-icon:hover {
+  color: #ff6b6b;
 }
 
 .selected-area-title {

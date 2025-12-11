@@ -34,12 +34,17 @@ export class TaskStoreService {
   ];
 
   private readonly storageKey = 'day-planner-tasks';
-  private readonly storedState = this.loadState();
 
-  readonly tasks = signal<Task[]>(this.storedState?.tasks ?? this.initialTasks);
-  readonly focusAreas = signal<string[]>(
-    this.storedState?.focusAreas ?? this.extractFocusAreas(this.tasks())
-  );
+  readonly tasks = signal<Task[]>(this.initialTasks);
+  readonly focusAreas = signal<string[]>(this.extractFocusAreas(this.initialTasks));
+
+  constructor() {
+    const storedState = this.loadState();
+    if (storedState) {
+      this.tasks.set(storedState.tasks);
+      this.focusAreas.set(storedState.focusAreas);
+    }
+  }
 
   addTask(taskData: { name: string; focusArea: string }) {
     const newTask: Task = {

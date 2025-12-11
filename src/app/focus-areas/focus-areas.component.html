@@ -9,8 +9,10 @@
 
   <div class="focus-area-buttons">
     @for (area of focusAreas(); track area) {
-    <button class="task-button" [class.selected]="area === selectedArea" (click)="selectArea(area)">
+    <button class="task-button" type="button" [class.selected]="area === selectedArea" (click)="selectArea(area)">
       {{ area }}
+      <span class="delete-icon" (click)="deleteFocusArea(area); $event.stopPropagation()"
+        aria-label="Delete focus area">×</span>
     </button>
     }
   </div>
@@ -21,8 +23,9 @@
     <div class="focus-area-tasks">
       @for (task of tasksForSelectedArea(); track task.id) {
       <div>
-        <button class="task-button">
+        <button class="task-button" type="button">
           {{ task.name }}
+          <span class="delete-icon" (click)="deleteTask(task.id); $event.stopPropagation()" aria-label="Delete task">×</span>
         </button>
       </div>
       }
