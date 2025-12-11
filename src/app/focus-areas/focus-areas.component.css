@@ -3,36 +3,6 @@
   margin: 40px auto;
 }
 
-.add-focus-area {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 16px;
-}
-
-.add-focus-area input {
-  flex: 1;
-  padding: 8px;
-  background-color: #0b0b0b;
-  color: #e8ffe8;
-  border: 1px solid #1c7a3d;
-  border-radius: 4px;
-}
-
-.add-focus-area button {
-  padding: 8px 12px;
-  background-color: #004a2a;
-  color: #bfffbd;
-  border: 1px solid #1c7a3d;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: background-color 0.2s ease;
-}
-
-.add-focus-area button:hover {
-  background-color: #066338;
-}
-
 .focus-area-buttons {
   display: flex;
   flex-direction: column;
@@ -48,15 +18,14 @@
   text-align: left;
   cursor: pointer;
   font-size: 0.95rem;
-  transition:
-    background-color 0.2s,
-    border-color 0.2s,
-    transform 0.15s;
+  transition: background-color 0.2s,
+              border-color 0.2s,
+              transform 0.15s;
   font-family: monospace;
 }
 
 .task-button:hover {
-  background-color: #000000;
+  background-color: #131313;
   border-color: #008a6a;
   transform: translateY(-2px);
 }
@@ -65,6 +34,17 @@
   background-color: #001d15;
   color: #bfffc1;
   text-shadow: 0px 0px 10px rgba(144, 255, 117, 0.825);
+}
+
+.task-button.completed {
+  opacity: 0.5;
+  text-decoration: line-through;
+  cursor: default;
+}
+
+.task-button:focus-visible {
+  outline: 2px solid #aec6d6;
+  outline-offset: 2px;
 }
 
 .focus-area-details h2 {
@@ -76,16 +56,6 @@
   padding-bottom: 4px;
 }
 
-.focus-area-details ul {
-  list-style: none;
-  padding-left: 0;
-}
-
-.focus-area-details li {
-  padding: 8px 0;
-  border-bottom: 1px solid #0c2a16;
-}
-
 @media (max-width: 1024px) {
   .focus-areas-container {
     width: 80%;
@@ -95,8 +65,5 @@
 @media (max-width: 600px) {
   .focus-areas-container {
     width: 90%;
-  }
-  .add-focus-area {
-    flex-direction: column;
   }
 }
