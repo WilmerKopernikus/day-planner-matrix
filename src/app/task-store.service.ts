@@ -67,9 +67,27 @@ export class TaskStoreService {
     this.focusAreas.update((areas) =>
       areas.includes(trimmed) ? areas : [...areas, trimmed]
     );
-        if (persist) {
+    if (persist) {
       this.persistState();
     }
+  }
+
+
+  removeTask(taskId: number) {
+    this.tasks.update((tasks) => tasks.filter((task) => task.id !== taskId));
+    this.persistState();
+  }
+
+  removeFocusArea(focusArea: string) {
+    const trimmed = focusArea.trim();
+    if (!trimmed) {
+      return;
+    }
+
+    this.focusAreas.update((areas) => areas.filter((area) => area !== trimmed));
+    this.tasks.update((tasks) => tasks.filter((task) => task.focusArea !== trimmed));
+
+    this.persistState();
   }
 
   private extractFocusAreas(tasks: Task[]): string[] {
@@ -80,7 +98,7 @@ export class TaskStoreService {
     const currentTasks = this.tasks();
     return currentTasks.length ? Math.max(...currentTasks.map((task) => task.id)) + 1 : 1;
   }
-  
+
   private persistState() {
     if (!this.hasLocalStorage()) {
       return;
