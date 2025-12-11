@@ -93,12 +93,6 @@ app-task-name-input input::placeholder {
   text-shadow: 0px 0px 10px rgba(144, 255, 117, 0.825);
 }
 
-.task-button.completed {
-  opacity: 0.5;
-  text-decoration: line-through;
-  cursor: default;
-}
-
 .task-button:focus-visible {
   outline: 2px solid #aec6d6;
   outline-offset: 2px;

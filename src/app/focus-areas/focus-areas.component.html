@@ -21,7 +21,7 @@
     <div class="focus-area-tasks">
       @for (task of tasksForSelectedArea(); track task.id) {
       <div>
-        <button class="task-button" [class.completed]="task.completed">
+        <button class="task-button">
           {{ task.name }}
         </button>
       </div>

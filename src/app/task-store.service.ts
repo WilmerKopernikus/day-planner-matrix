@@ -10,31 +10,26 @@ export class TaskStoreService {
       id: 1,
       focusArea: 'Lernen',
       name: 'GitHub Copilot Certification',
-      completed: false,
     },
     {
       id: 2,
       focusArea: 'Bewerbungen',
       name: 'Client presentation',
-      completed: false,
     },
     {
       id: 3,
       focusArea: 'Projekte',
       name: 'Banderas Nila López',
-      completed: false,
     },
     {
       id: 4,
       focusArea: 'Deutsch',
       name: 'Traum und Traumdeutung - CG Jung',
-      completed: true,
     },
     {
       id: 5,
       focusArea: 'Ordnung',
       name: 'Comprar veneno contra las cucarachas',
-      completed: false,
     },
   ];
 
@@ -46,7 +41,6 @@ addTask(taskData: { name: string; focusArea: string }) {
       id: this.nextTaskId(),
       focusArea: taskData.focusArea,
       name: taskData.name,
-      completed: false,
     };
 
     this.tasks.update((tasks) => [...tasks, newTask]);
