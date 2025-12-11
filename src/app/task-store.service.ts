@@ -87,7 +87,16 @@ export class TaskStoreService {
 
 
   removeTask(taskId: number) {
-        this.tasks.update((tasks) => {
+    this.tasks.update((tasks) => {
+      const targetTask = tasks.find((task) => task.id === taskId);
+
+      if (!targetTask) {
+        return tasks;
+      }
+
+      if (targetTask.isSubProject) {
+        return tasks.filter((task) => task.id !== taskId && task.subProjectId !== taskId);
+      }
       const remaining = tasks.filter((task) => task.id !== taskId);
       return remaining.map((task) =>
         task.subProjectId === taskId ? { ...task, subProjectId: undefined } : task

@@ -41,14 +41,14 @@ export class FocusAreasComponent {
     if (this.selectedArea === area) {
       this.selectedArea = remainingAreas.length ? remainingAreas[0] : null;
     }
-        if (this.selectedArea === null) {
+    if (this.selectedArea === null) {
       this.selectedSubProjectId = null;
     }
   }
 
   deleteTask(taskId: number) {
     this.taskStore.removeTask(taskId);
-        if (this.selectedSubProjectId === taskId) {
+    if (this.selectedSubProjectId === taskId) {
       this.selectedSubProjectId = null;
     }
   }
@@ -69,14 +69,27 @@ export class FocusAreasComponent {
       return [];
     }
 
-    return this.tasks().filter(
-      (task) => task.focusArea === this.selectedArea && task.isSubProject
-    );
+    return this.tasks().filter((task) => task.focusArea === this.selectedArea && task.isSubProject);
   }
 
   selectSubProject(subProjectId: number) {
     this.selectedSubProjectId = subProjectId;
   }
+
+  deleteSubProject(subProjectId: number) {
+    this.taskStore.removeTask(subProjectId);
+
+    if (this.selectedSubProjectId === subProjectId) {
+      this.selectedSubProjectId = null;
+    }
+  }
+
+  selectedSubProjectName(): string | undefined {
+    return this.subProjectsForSelectedArea().find(
+      (task) => task.id === this.selectedSubProjectId
+    )?.name;
+  }
+
 
   tasksForSelectedSubProject(): Task[] {
     if (!this.selectedSubProjectId) {

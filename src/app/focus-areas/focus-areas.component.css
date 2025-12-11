@@ -20,8 +20,8 @@
   cursor: pointer;
   font-size: 0.95rem;
   transition: background-color 0.2s,
-              border-color 0.2s,
-              transform 0.15s;
+    border-color 0.2s,
+    transform 0.15s;
   font-family: monospace;
   position: relative;
 }
@@ -74,6 +74,19 @@
   font-size: 1.2em;
   text-align: center;
 }
+
+.sub-project-task-list {
+  margin-top: 32px;
+}
+
+.sub-project-title {
+  color: #a8ff9f;
+  text-shadow: 2px 2px 10px rgba(104, 255, 66, 0.6);
+  font-size: 2em;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
 @media (max-width: 1024px) {
   .focus-areas-container {
     width: 80%;
