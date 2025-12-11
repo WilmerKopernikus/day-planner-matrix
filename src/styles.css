@@ -84,6 +84,7 @@ app-task-name-input input::placeholder {
   background-color: #000000;
   border-color: #008a6a;
   transform: translateY(-2px);
+  box-shadow: 1px 1px 20px rgba(0, 145, 82, 0.796);
   
 }
 
