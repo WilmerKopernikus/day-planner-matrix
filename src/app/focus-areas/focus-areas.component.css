@@ -15,6 +15,7 @@
   margin: 6px 0;
   background-color: #000000;
   color: #50ff56;
+  border: 1px solid #1c7a3d;
   text-align: center;
   cursor: pointer;
   font-size: 0.95rem;
@@ -31,6 +32,7 @@
 .task-button.selected {
   color: #bfffc1;
   text-shadow: 0px 0px 10px rgba(144, 255, 117, 0.825);
+  border: 1px solid #bfffc1;
 }
 
 .task-button.completed {
@@ -45,12 +47,12 @@
 }
 
 .selected-area-title {
-  margin-top: 30px;
+  margin-top: 40px;
   margin-bottom: 15px;
-  color: #50ff56;
+  color: #bfffc1;
   text-shadow: 4px 4px 12px rgba(104, 255, 66, 0.781);
-  font-size: 1.1rem;
-  padding-bottom: 4px;
+  font-size: 1.8em;
+  text-align: center;
 }
 
 @media (max-width: 1024px) {
