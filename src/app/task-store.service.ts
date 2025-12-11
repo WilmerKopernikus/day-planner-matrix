@@ -33,10 +33,15 @@ export class TaskStoreService {
     },
   ];
 
-  readonly tasks = signal<Task[]>(this.initialTasks);
-  readonly focusAreas = signal<string[]>(this.extractFocusAreas(this.initialTasks));
+  private readonly storageKey = 'day-planner-tasks';
+  private readonly storedState = this.loadState();
 
-addTask(taskData: { name: string; focusArea: string }) {
+  readonly tasks = signal<Task[]>(this.storedState?.tasks ?? this.initialTasks);
+  readonly focusAreas = signal<string[]>(
+    this.storedState?.focusAreas ?? this.extractFocusAreas(this.tasks())
+  );
+
+  addTask(taskData: { name: string; focusArea: string }) {
     const newTask: Task = {
       id: this.nextTaskId(),
       focusArea: taskData.focusArea,
@@ -44,10 +49,11 @@ addTask(taskData: { name: string; focusArea: string }) {
     };
 
     this.tasks.update((tasks) => [...tasks, newTask]);
-    this.addFocusArea(taskData.focusArea);
+    this.addFocusArea(taskData.focusArea, false);
+    this.persistState();
   }
 
-  addFocusArea(focusArea: string) {
+  addFocusArea(focusArea: string, persist = true) {
     const trimmed = focusArea.trim();
     if (!trimmed) {
       return;
@@ -56,6 +62,9 @@ addTask(taskData: { name: string; focusArea: string }) {
     this.focusAreas.update((areas) =>
       areas.includes(trimmed) ? areas : [...areas, trimmed]
     );
+        if (persist) {
+      this.persistState();
+    }
   }
 
   private extractFocusAreas(tasks: Task[]): string[] {
@@ -65,5 +74,47 @@ addTask(taskData: { name: string; focusArea: string }) {
   private nextTaskId(): number {
     const currentTasks = this.tasks();
     return currentTasks.length ? Math.max(...currentTasks.map((task) => task.id)) + 1 : 1;
+  }
+  
+  private persistState() {
+    if (!this.hasLocalStorage()) {
+      return;
+    }
+
+    const state = JSON.stringify({
+      tasks: this.tasks(),
+      focusAreas: this.focusAreas(),
+    });
+
+    globalThis.localStorage.setItem(this.storageKey, state);
+  }
+
+  private loadState(): { tasks: Task[]; focusAreas: string[] } | null {
+    if (!this.hasLocalStorage()) {
+      return null;
+    }
+
+    const stored = globalThis.localStorage.getItem(this.storageKey);
+    if (!stored) {
+      return null;
+    }
+
+    try {
+      const parsed = JSON.parse(stored) as Partial<{ tasks: Task[]; focusAreas: string[] }>;
+      if (Array.isArray(parsed.tasks) && Array.isArray(parsed.focusAreas)) {
+        return {
+          tasks: parsed.tasks,
+          focusAreas: parsed.focusAreas,
+        };
+      }
+    } catch {
+      return null;
+    }
+
+    return null;
+  }
+
+  private hasLocalStorage(): boolean {
+    return typeof globalThis !== 'undefined' && !!globalThis.localStorage;
   }
 }
