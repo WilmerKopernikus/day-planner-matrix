@@ -1,11 +1,7 @@
 <div class="focus-areas-container">
   <div class="add-focus-area">
-    <input
-      type="text"
-      [value]="newFocusArea"
-      (input)="newFocusArea = $any($event.target).value"
-      placeholder="Add a focus area"
-    />
+    <input type="text" [value]="newFocusArea" (input)="newFocusArea = $any($event.target).value"
+      placeholder="Add a focus area" />
     <button type="button" (click)="addFocusArea()">Add Focus Area</button>
   </div>
 
@@ -13,90 +9,64 @@
 
   <div class="focus-area-buttons">
     @for (area of focusAreas(); track area) {
-            <button
-        class="task-button"
-        type="button"
-        [class.selected]="area === selectedArea"
-        (click)="selectArea(area)"
-      >
-        {{ area }}
-                <span
-          class="delete-icon"
-          (click)="deleteFocusArea(area); $event.stopPropagation()"
-          aria-label="Delete focus area"
-          >×</span
-        >
-      </button>
+    <button class="task-button" type="button" [class.selected]="area === selectedArea" (click)="selectArea(area)">
+      {{ area }}
+      <span class="delete-icon" (click)="deleteFocusArea(area); $event.stopPropagation()"
+        aria-label="Delete focus area">×</span>
+    </button>
     }
   </div>
 
   @if (selectedArea) {
   <div class="focus-area-details">
-      <h2 class="page-title selected-area-title">{{ selectedArea }}</h2>
+    <h2 class="page-title selected-area-title">{{ selectedArea }}</h2>
 
-      @if (subProjectsForSelectedArea().length) {
-        <div class="sub-projects">
-          <h3 class="sub-projects-title">Sub-Projects</h3>
-          <div class="focus-area-tasks">
-            @for (subProject of subProjectsForSelectedArea(); track subProject.id) {
-              <div>
-                                <button
-                  class="task-button"
-                  type="button"
-                  [class.selected]="subProject.id === selectedSubProjectId"
-                  (click)="selectSubProject(subProject.id)"
-                >
-                  (click)="selectSubProject(subProject.id)">
-                  {{ subProject.name }}
-                  <span
-                    class="delete-icon"
-                    (click)="deleteSubProject(subProject.id, $event)"
-                    aria-label="Delete sub-project"
-                    >×</span
-                  >
-                </button>
-              </div>
-            }
-          </div>
+    @if (subProjectsForSelectedArea().length) {
+    <div class="sub-projects">
+      <h3 class="sub-projects-title">Sub-Projects</h3>
+      <div class="focus-area-tasks">
+        @for (subProject of subProjectsForSelectedArea(); track subProject.id) {
+        <div>
+          <button class="task-button" type="button" [class.selected]="subProject.id === selectedSubProjectId"
+            (click)="selectSubProject(subProject.id)">
+            {{ subProject.name }}
+            <span class="delete-icon" (click)="deleteSubProject(subProject.id, $event)"
+              aria-label="Delete sub-project">×</span>
+          </button>
         </div>
-      }
+        }
+      </div>
+    </div>
+    }
 
-      @if (selectedSubProjectId) {
-        <div class="sub-project-task-list">
-          <h3 class="page-title sub-project-title">{{ selectedSubProjectName() }}</h3>
-          <div class="focus-area-tasks">
-            @for (task of tasksForSelectedSubProject(); track task.id) {
-              <div>
-                <button class="task-button" type="button">
-                  {{ task.name }}
-                  <span
-                    class="delete-icon"
-                    (click)="deleteTask(task.id); $event.stopPropagation()"
-                    aria-label="Delete task"
-                    >×</span
-                  >
-                </button>
-              </div>
-            }
-          </div>
+    @if (selectedSubProjectId) {
+    <div class="sub-project-task-list">
+      <h3 class="page-title sub-project-title">{{ selectedSubProjectName() }}</h3>
+      <div class="focus-area-tasks">
+        @for (task of tasksForSelectedSubProject(); track task.id) {
+        <div>
+          <button class="task-button" type="button">
+            {{ task.name }}
+            <span class="delete-icon" (click)="deleteTask(task.id); $event.stopPropagation()"
+              aria-label="Delete task">×</span>
+          </button>
         </div>
-      } @else {
-        <div class="focus-area-tasks">
-          @for (task of tasksForSelectedArea(); track task.id) {
-            <div>
-              <button class="task-button" type="button">
-                {{ task.name }}
-                                <span
-                  class="delete-icon"
-                  (click)="deleteTask(task.id); $event.stopPropagation()"
-                  aria-label="Delete task"
-                  >×</span
-                >
-              </button>
-            </div>
-          }
-        </div>
+        }
+      </div>
+    </div>
+    } @else {
+    <div class="focus-area-tasks">
+      @for (task of tasksForSelectedArea(); track task.id) {
+      <div>
+        <button class="task-button" type="button">
+          {{ task.name }}
+          <span class="delete-icon" (click)="deleteTask(task.id); $event.stopPropagation()"
+            aria-label="Delete task">×</span>
+        </button>
+      </div>
       }
     </div>
+    }
+  </div>
   }
 </div>
