@@ -36,6 +36,11 @@
   border: 1px solid #bfffc1;
 }
 
+.task-button.dragging {
+  opacity: 0.7;
+  border-style: dashed;
+}
+
 .task-button:focus-visible {
   outline: 2px solid #aec6d6;
   outline-offset: 2px;

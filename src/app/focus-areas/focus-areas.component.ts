@@ -17,6 +17,7 @@ export class FocusAreasComponent {
   selectedArea: string | null = null;
   selectedSubProjectId: number | null = null;
   newFocusArea = '';
+  draggingArea: string | null = null;
 
   selectArea(area: string) {
     this.selectedArea = area;
@@ -32,6 +33,31 @@ export class FocusAreasComponent {
     this.taskStore.addFocusArea(trimmed);
     this.newFocusArea = '';
     this.selectArea(trimmed);
+  }
+
+    startDrag(area: string, event: DragEvent) {
+    this.draggingArea = area;
+    event.dataTransfer?.setData('text/plain', area);
+    event.dataTransfer?.setDragImage(new Image(), 0, 0);
+    event.dataTransfer?.setData('application/focus-area', area);
+  }
+
+  handleDragOver(event: DragEvent) {
+    event.preventDefault();
+  }
+
+  dropArea(targetArea: string) {
+    if (!this.draggingArea || this.draggingArea === targetArea) {
+      this.draggingArea = null;
+      return;
+    }
+
+    this.taskStore.reorderFocusAreas(this.draggingArea, targetArea);
+    this.draggingArea = null;
+  }
+
+  endDrag() {
+    this.draggingArea = null;
   }
 
   deleteFocusArea(area: string) {

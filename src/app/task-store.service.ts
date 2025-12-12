@@ -108,6 +108,32 @@ private readonly initialTasks: Task[] = [];
     this.persistState();
   }
 
+    reorderFocusAreas(sourceArea: string, targetArea: string) {
+    const trimmedSource = sourceArea.trim();
+    const trimmedTarget = targetArea.trim();
+
+    if (!trimmedSource || !trimmedTarget || trimmedSource === trimmedTarget) {
+      return;
+    }
+
+    this.focusAreas.update((areas) => {
+      const sourceIndex = areas.indexOf(trimmedSource);
+      const targetIndex = areas.indexOf(trimmedTarget);
+
+      if (sourceIndex === -1 || targetIndex === -1) {
+        return areas;
+      }
+
+      const updated = [...areas];
+      const [moved] = updated.splice(sourceIndex, 1);
+      const insertIndex = sourceIndex < targetIndex ? targetIndex - 1 : targetIndex;
+      updated.splice(insertIndex, 0, moved);
+
+      return updated;
+    });
+
+    this.persistState();
+  }
   private extractFocusAreas(tasks: Task[]): string[] {
     return Array.from(new Set(tasks.map((task) => task.focusArea)));
   }

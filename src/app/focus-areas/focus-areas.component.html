@@ -9,7 +9,10 @@
 
   <div class="focus-area-buttons">
     @for (area of focusAreas(); track area) {
-    <button class="task-button" type="button" [class.selected]="area === selectedArea" (click)="selectArea(area)">
+        <button class="task-button" type="button" [class.selected]="area === selectedArea"
+      [class.dragging]="area === draggingArea" (click)="selectArea(area)" draggable="true"
+      (dragstart)="startDrag(area, $event)" (dragend)="endDrag()" (dragover)="handleDragOver($event)"
+      (drop)="dropArea(area)">
       {{ area }}
       <span class="delete-icon" (click)="deleteFocusArea(area); $event.stopPropagation()"
         aria-label="Delete focus area">×</span>
