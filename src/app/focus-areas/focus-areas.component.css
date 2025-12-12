@@ -37,13 +37,14 @@
 }
 
 .task-button.dragging {
-
   border-style: dashed;
 }
 
 .drag-image {
+  background-color: #000000;
+  color: #50ff56;
+  border: 1px solid #1c7a3d;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
-  border-style: dashed;
   transform: scale(1.02);
 }
 

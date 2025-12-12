@@ -126,7 +126,10 @@ private readonly initialTasks: Task[] = [];
 
       const updated = [...areas];
       const [moved] = updated.splice(sourceIndex, 1);
-      const insertIndex = sourceIndex < targetIndex ? targetIndex - 1 : targetIndex;
+      const targetIndexAfterRemoval = updated.indexOf(trimmedTarget);
+      const insertIndex = sourceIndex < targetIndex
+        ? targetIndexAfterRemoval + 1
+        : targetIndexAfterRemoval;
       updated.splice(insertIndex, 0, moved);
 
       return updated;

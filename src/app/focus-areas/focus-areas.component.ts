@@ -39,9 +39,8 @@ export class FocusAreasComponent {
   startDrag(area: string, event: DragEvent) {
     this.draggingArea = area;
     event.dataTransfer?.setData('text/plain', area);
-    event.dataTransfer?.setDragImage(new Image(), 0, 0);
     event.dataTransfer?.setData('application/focus-area', area);
-        const sourceElement = event.currentTarget as HTMLElement | null;
+    const sourceElement = event.currentTarget as HTMLElement | null;
     const dragImage = sourceElement ? this.createDragImage(sourceElement) : null;
 
     if (dragImage) {
@@ -49,8 +48,6 @@ export class FocusAreasComponent {
       event.dataTransfer?.setDragImage(dragImage, width / 2, height / 2);
     }
   }
-
-
 
   handleDragOver(event: DragEvent) {
     event.preventDefault();
@@ -70,6 +67,7 @@ export class FocusAreasComponent {
 
   endDrag() {
     this.draggingArea = null;
+    this.removeDragImage();
   }
 
   deleteFocusArea(area: string) {
