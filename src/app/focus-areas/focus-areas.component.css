@@ -44,8 +44,9 @@
   background-color: #000000;
   color: #50ff56;
   border: 1px solid #1c7a3d;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 10px 30px rgba(39, 141, 51, 0.45);
   transform: scale(1.02);
+  opacity: 1 !important;
 }
 
 .task-button:focus-visible {

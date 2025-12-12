@@ -151,6 +151,7 @@ export class FocusAreasComponent {
     clone.style.left = '-9999px';
     clone.style.width = `${buttonRect.width}px`;
     clone.style.pointerEvents = 'none';
+    clone.style.opacity = '1';
 
     document.body.appendChild(clone);
     this.dragImageElement = clone;
