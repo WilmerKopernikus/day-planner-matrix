@@ -17,4 +17,8 @@ export class DayPlannerComponent {
   handleNewTask(taskData: { name: string; focusArea: string; subProjectId?: number | null }) {
     this.taskStore.addTask(taskData);
   }
+  
+  handleNewSubProject(subProjectData: { name: string; focusArea: string }) {
+    this.taskStore.addSubProject(subProjectData);
+  }
 }

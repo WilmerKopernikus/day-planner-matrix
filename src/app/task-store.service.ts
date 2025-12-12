@@ -85,6 +85,24 @@ export class TaskStoreService {
     }
   }
 
+    addSubProject(subProjectData: { name: string; focusArea: string }) {
+    const trimmedName = subProjectData.name.trim();
+
+    if (!trimmedName) {
+      return;
+    }
+
+    const newSubProject: Task = {
+      id: this.nextTaskId(),
+      focusArea: subProjectData.focusArea,
+      name: trimmedName,
+      isSubProject: true,
+    };
+
+    this.tasks.update((tasks) => [...tasks, newSubProject]);
+    this.addFocusArea(subProjectData.focusArea, false);
+    this.persistState();
+  }
 
   removeTask(taskId: number) {
     this.tasks.update((tasks) => {

@@ -13,6 +13,7 @@ export class AddTaskComponent implements OnChanges {
   @Input() focusAreas: string[] = [];
   @Input() tasks: Task[] = [];
   newTaskName = '';
+  newSubProjectName = '';
   selectedFocusArea = '';
   selectedSubProjectId: number | null = null;
 
@@ -22,6 +23,10 @@ export class AddTaskComponent implements OnChanges {
     subProjectId?: number | null;
   }>();
   @Output() addFocusArea = new EventEmitter<string>();
+    @Output() addSubProjectEvent = new EventEmitter<{
+    name: string;
+    focusArea: string;
+  }>();
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['focusAreas'] && !this.selectedFocusArea && this.focusAreas.length) {
@@ -50,10 +55,31 @@ export class AddTaskComponent implements OnChanges {
     this.syncSubProjectSelection();
   }
 
+  addSubProject() {
+    const trimmedName = this.newSubProjectName.trim();
+
+    if (!this.selectedFocusArea || !trimmedName) {
+      return;
+    }
+
+    this.addSubProjectEvent.emit({
+      name: trimmedName,
+      focusArea: this.selectedFocusArea,
+    });
+
+    this.newSubProjectName = '';
+  }
+
+
   handleSubProjectSelection(event: Event) {
     const target = event.target as HTMLSelectElement;
     const value = target.value;
     this.selectedSubProjectId = value ? Number(value) : null;
+  }
+
+  handleSubProjectNameChange(event: Event) {
+    const target = event.target as HTMLInputElement;
+    this.newSubProjectName = target.value;
   }
 
   availableSubProjects(): Task[] {
@@ -61,7 +87,9 @@ export class AddTaskComponent implements OnChanges {
       return [];
     }
 
-    return this.tasks.filter((task) => task.focusArea === this.selectedFocusArea);
+    return this.tasks.filter(
+      (task) => task.focusArea === this.selectedFocusArea && task.isSubProject
+    );
   }
 
   private syncSubProjectSelection() {

@@ -8,7 +8,27 @@
       }
     </select>
   </div>
-    <div class="focus-area-row">
+
+  <div class="focus-area-row">
+    <label for="subProjectNameInput">Enter sub-project name</label>
+    <div class="sub-project-controls">
+      <input
+        id="subProjectNameInput"
+        type="text"
+        [value]="newSubProjectName"
+        (input)="handleSubProjectNameChange($event)"
+        [disabled]="!selectedFocusArea"
+        placeholder="Enter sub-project name"
+      />
+      <button type="button" (click)="addSubProject()" [disabled]="!selectedFocusArea">Add Sub-Project</button>
+    </div>
+  </div>
+
+  @if (!selectedFocusArea) {
+  <div class="warning">First select a Project</div>
+  }
+
+  <div class="focus-area-row">
     <label for="subProjectSelect">Sub-Project</label>
     <select id="subProjectSelect" [value]="selectedSubProjectId ?? ''" (change)="handleSubProjectSelection($event)">
       <option value="">No Sub-Project</option>
@@ -17,6 +37,7 @@
       }
     </select>
   </div>
+  
   <app-task-name-input [(taskName)]="newTaskName" />
 
   <button (click)="addTask()">Add Task</button>

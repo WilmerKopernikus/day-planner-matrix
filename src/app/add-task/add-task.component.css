@@ -42,3 +42,16 @@
 .add-task-form button:hover {
   background-color: #066338;
 }
+
+.sub-project-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.warning {
+  color: #ffd166;
+  font-size: 0.9rem;
+  margin-left: 98px;
+}
