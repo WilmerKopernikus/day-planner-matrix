@@ -1,0 +1,89 @@
+.calendar {
+  max-width: 1200px;
+  margin: 0 auto 32px;
+}
+
+.calendar-title {
+  text-align: center;
+  margin-bottom: 28px;
+  font-size: 2.4rem;
+  letter-spacing: 2px;
+}
+
+.month-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.month-card {
+  border: 1px solid #0c2a16;
+  padding: 12px;
+  box-shadow: 0px 0px 12px rgba(104, 255, 66, 0.35);
+}
+
+.month-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.month-header h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.days-count {
+  font-size: 0.9rem;
+  color: #77ff9b;
+}
+
+.day-labels,
+.date-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 4px;
+}
+
+.day-labels {
+  margin-bottom: 4px;
+  color: #90ff9a;
+  font-size: 0.7rem;
+}
+
+.day-labels span {
+  text-align: center;
+  padding: 2px 0;
+}
+
+.date-cell {
+  text-align: center;
+  padding: 2px 0;
+  min-height: 20px;
+  font-size: 0.7rem;
+}
+
+.date-cell.empty {
+  background: transparent;
+  box-shadow: none;
+}
+
+@media (max-width: 1200px) {
+  .month-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .month-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .month-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

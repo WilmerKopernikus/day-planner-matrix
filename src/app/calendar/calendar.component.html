@@ -1,0 +1,23 @@
+<section class="calendar">
+  <h1 class="calendar-title">{{ year }}</h1>
+  <div class="month-grid">
+    <article class="month-card" *ngFor="let month of months">
+      <header class="month-header">
+        <h2>{{ month.name }}</h2>
+        <span class="days-count">{{ month.daysInMonth }} days</span>
+      </header>
+      <div class="day-labels" aria-hidden="true">
+        <span *ngFor="let label of dayLabels">{{ label }}</span>
+      </div>
+      <div class="date-grid" role="grid" [attr.aria-label]="month.name">
+        <span
+          *ngFor="let day of month.days"
+          class="date-cell"
+          [class.empty]="day === null"
+          role="gridcell"
+          >{{ day ?? '' }}</span
+        >
+      </div>
+    </article>
+  </div>
+</section>
