@@ -4,41 +4,7 @@ import { Task } from '../task.model';
 @Injectable({ providedIn: 'root' })
 export class TaskStoreService {
 
-  private readonly initialTasks: Task[] = [
-
-    {
-      id: 1,
-      focusArea: 'Lernen',
-      name: 'GitHub Copilot Certification',
-    },
-    {
-      id: 2,
-      focusArea: 'Bewerbungen',
-      name: 'Client presentation',
-    },
-    {
-      id: 3,
-      focusArea: 'Projekte',
-      name: 'Banderas Nila López',
-    },
-    {
-      id: 4,
-      focusArea: 'Deutsch',
-      name: 'Traum und Traumdeutung - CG Jung',
-    },
-    {
-      id: 5,
-      focusArea: 'Ordnung',
-      name: 'Wohnung-Ordnung',
-      isSubProject: true,
-    },
-    {
-      id: 6,
-      focusArea: 'Ordnung',
-      name: 'Digital-Ordnung',
-      isSubProject: true,
-    },
-  ];
+private readonly initialTasks: Task[] = [];
 
   private readonly storageKey = 'day-planner-tasks';
 
