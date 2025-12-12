@@ -18,6 +18,7 @@ export class FocusAreasComponent {
   selectedSubProjectId: number | null = null;
   newFocusArea = '';
   draggingArea: string | null = null;
+  private dragImageElement: HTMLElement | null = null;
 
   selectArea(area: string) {
     this.selectedArea = area;
@@ -35,12 +36,21 @@ export class FocusAreasComponent {
     this.selectArea(trimmed);
   }
 
-    startDrag(area: string, event: DragEvent) {
+  startDrag(area: string, event: DragEvent) {
     this.draggingArea = area;
     event.dataTransfer?.setData('text/plain', area);
     event.dataTransfer?.setDragImage(new Image(), 0, 0);
     event.dataTransfer?.setData('application/focus-area', area);
+        const sourceElement = event.currentTarget as HTMLElement | null;
+    const dragImage = sourceElement ? this.createDragImage(sourceElement) : null;
+
+    if (dragImage) {
+      const { width, height } = dragImage.getBoundingClientRect();
+      event.dataTransfer?.setDragImage(dragImage, width / 2, height / 2);
+    }
   }
+
+
 
   handleDragOver(event: DragEvent) {
     event.preventDefault();
@@ -49,11 +59,13 @@ export class FocusAreasComponent {
   dropArea(targetArea: string) {
     if (!this.draggingArea || this.draggingArea === targetArea) {
       this.draggingArea = null;
+      this.removeDragImage();
       return;
     }
 
     this.taskStore.reorderFocusAreas(this.draggingArea, targetArea);
     this.draggingArea = null;
+    this.removeDragImage();
   }
 
   endDrag() {
@@ -129,5 +141,29 @@ export class FocusAreasComponent {
     }
 
     return this.tasks().filter((task) => task.subProjectId === this.selectedSubProjectId);
+  }
+  
+  private createDragImage(source: HTMLElement): HTMLElement {
+    const buttonRect = source.getBoundingClientRect();
+    const clone = source.cloneNode(true) as HTMLElement;
+
+    clone.classList.add('drag-image');
+    clone.style.position = 'absolute';
+    clone.style.top = '-9999px';
+    clone.style.left = '-9999px';
+    clone.style.width = `${buttonRect.width}px`;
+    clone.style.pointerEvents = 'none';
+
+    document.body.appendChild(clone);
+    this.dragImageElement = clone;
+
+    return clone;
+  }
+
+  private removeDragImage() {
+    if (this.dragImageElement?.parentElement) {
+      this.dragImageElement.parentElement.removeChild(this.dragImageElement);
+    }
+    this.dragImageElement = null;
   }
 }

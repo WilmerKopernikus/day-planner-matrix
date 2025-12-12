@@ -37,8 +37,14 @@
 }
 
 .task-button.dragging {
-  opacity: 0.7;
+
   border-style: dashed;
+}
+
+.drag-image {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  border-style: dashed;
+  transform: scale(1.02);
 }
 
 .task-button:focus-visible {
