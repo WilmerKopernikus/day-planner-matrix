@@ -23,7 +23,6 @@
   background-color: #0b0b0b;
   color: #e8ffe8;
   border: 1px solid #1c7a3d;
-  border-radius: 4px;
 }
 
 .focus-area-row button,
@@ -32,7 +31,6 @@
   background-color: #004a2a;
   color: #bfffbd;
   border: 1px solid #1c7a3d;
-  border-radius: 4px;
   cursor: pointer;
   font-weight: 600;
   transition: background-color 0.2s ease;
