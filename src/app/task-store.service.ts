@@ -29,7 +29,14 @@ export class TaskStoreService {
     {
       id: 5,
       focusArea: 'Ordnung',
-      name: 'Comprar veneno contra las cucarachas',
+      name: 'Wohnung-Ordnung',
+      isSubProject: true,
+    },
+    {
+      id: 6,
+      focusArea: 'Ordnung',
+      name: 'Digital-Ordnung',
+      isSubProject: true,
     },
   ];
 
