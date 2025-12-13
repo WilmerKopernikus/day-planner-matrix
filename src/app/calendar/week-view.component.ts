@@ -136,7 +136,11 @@ export class WeekViewComponent {
       return false;
     }
 
-    const { week: lastWeek } = this.getISOWeekInfo(new Date(Date.UTC(year, 11, 31)));
+    const { week: lastWeek, weekYear } = this.getISOWeekInfo(new Date(Date.UTC(year, 11, 28)));
+
+    if (weekYear !== year) {
+      return false;
+    }
     return week >= 1 && week <= lastWeek;
   }
 
