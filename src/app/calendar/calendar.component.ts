@@ -7,6 +7,12 @@ type CalendarMonth = {
   daysInMonth: number;
 };
 
+type YearCalendar = {
+  year: number;
+  months: CalendarMonth[];
+};
+
+
 @Component({
   selector: 'app-calendar',
   standalone: true,
@@ -15,11 +21,13 @@ type CalendarMonth = {
   styleUrl: './calendar.component.css',
 })
 export class CalendarComponent {
-  readonly year = 2026;
+  readonly calendars: YearCalendar[] = [
+    { year: 2025, months: this.buildCalendar(2025, [10, 11]) },
+    { year: 2026, months: this.buildCalendar(2026) },
+  ];
   readonly dayLabels = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
-  readonly months = this.buildCalendar();
 
-  private buildCalendar(): CalendarMonth[] {
+  private buildCalendar(year: number, monthIndices?: number[]): CalendarMonth[] {
     const monthNames = [
       'January',
       'February',
@@ -35,13 +43,15 @@ export class CalendarComponent {
       'December',
     ];
 
-    return monthNames.map((name, index) => this.createMonth(name, index));
+    const indices = monthIndices ?? Array.from({ length: 12 }, (_, index) => index);
+
+    return indices.map((index) => this.createMonth(monthNames[index], index, year));
   }
 
-  private createMonth(name: string, monthIndex: number): CalendarMonth {
-    const firstDay = new Date(this.year, monthIndex, 1);
+  private createMonth(name: string, monthIndex: number, year: number): CalendarMonth {
+    const firstDay = new Date(year, monthIndex, 1);
     const startIndex = (firstDay.getDay() + 6) % 7; // Monday-first layout
-    const daysInMonth = new Date(this.year, monthIndex + 1, 0).getDate();
+    const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
     const days: (number | null)[] = Array(startIndex).fill(null);
 
     for (let day = 1; day <= daysInMonth; day += 1) {

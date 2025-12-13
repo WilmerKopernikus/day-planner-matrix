@@ -1,7 +1,7 @@
-<section class="calendar">
-  <h1 class="calendar-title">{{ year }}</h1>
+<section class="calendar" *ngFor="let calendar of calendars">
+  <h1 class="calendar-title">{{ calendar.year }}</h1>
   <div class="month-grid">
-    <article class="month-card" *ngFor="let month of months">
+    <article class="month-card" *ngFor="let month of calendar.months">
       <header class="month-header">
         <h2>{{ month.name }}</h2>
         <span class="days-count">{{ month.daysInMonth }} days</span>
