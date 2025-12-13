@@ -56,7 +56,7 @@
 }
 
 .calendar-surface {
-  background: linear-gradient(135deg, rgba(7, 26, 10, 0.95), rgba(5, 19, 9, 0.9));
+  background-color: rgb(0, 0, 0);
   border: 1px solid #4dbf62;
   box-shadow: 0 0 18px rgba(99, 255, 110, 0.35);
   padding: 12px;
