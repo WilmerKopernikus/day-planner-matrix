@@ -50,7 +50,6 @@
 }
 
 .day-labels,
-.week-rows,
 .week-row {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
@@ -70,6 +69,9 @@
 
 .week-rows {
   margin-top: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .week-row {
