@@ -1,7 +1,11 @@
 <section class="calendar" *ngFor="let calendar of calendars">
   <h1 class="calendar-title">{{ calendar.year }}</h1>
   <div class="month-grid">
-    <article class="month-card" *ngFor="let month of calendar.months">
+    <a
+      class="month-card"
+      *ngFor="let month of calendar.months"
+      [routerLink]="['/calendar', calendar.year, month.monthIndex + 1]"
+    >
       <header class="month-header">
         <h2>{{ month.name }}</h2>
         <span class="days-count">{{ month.daysInMonth }} days</span>
@@ -10,14 +14,9 @@
         <span *ngFor="let label of dayLabels">{{ label }}</span>
       </div>
       <div class="date-grid" role="grid" [attr.aria-label]="month.name">
-        <span
-          *ngFor="let day of month.days"
-          class="date-cell"
-          [class.empty]="day === null"
-          role="gridcell"
-          >{{ day ?? '' }}</span
-        >
+        <span *ngFor="let day of month.days" class="date-cell" [class.empty]="day === null" role="gridcell">{{ day ?? ''
+          }}</span>
       </div>
-    </article>
+</a>
   </div>
 </section>

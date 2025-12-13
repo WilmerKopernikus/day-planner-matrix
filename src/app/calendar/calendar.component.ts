@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 type CalendarMonth = {
   name: string;
   days: (number | null)[];
   daysInMonth: number;
+  monthIndex: number;
 };
 
 type YearCalendar = {
@@ -16,7 +18,7 @@ type YearCalendar = {
 @Component({
   selector: 'app-calendar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.css',
 })
@@ -63,6 +65,6 @@ export class CalendarComponent {
       days.push(...Array(7 - remainder).fill(null));
     }
 
-    return { name, days, daysInMonth };
+    return { name, days, daysInMonth, monthIndex };
   }
 }

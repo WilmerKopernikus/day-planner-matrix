@@ -1,0 +1,100 @@
+.month-view {
+  max-width: 1280px;
+  margin: 0 auto;
+  color: #a4f7aa;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 12px;
+  color: #77ff9b;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.back-link:hover,
+.back-link:focus-visible {
+  text-decoration: underline;
+}
+
+.month-title {
+  margin: 12px 0 16px;
+  font-size: 2rem;
+  letter-spacing: 4px;
+}
+
+.calendar-surface {
+  background: linear-gradient(135deg, rgba(7, 26, 10, 0.95), rgba(5, 19, 9, 0.9));
+  border: 1px solid #4dbf62;
+  box-shadow: 0 0 18px rgba(99, 255, 110, 0.35);
+  padding: 12px;
+}
+
+.day-labels,
+.date-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  text-align: center;
+}
+
+.day-labels {
+  color: #7dee91;
+  font-size: 0.8rem;
+  border-bottom: 1px solid #4dbf62;
+  padding-bottom: 6px;
+}
+
+.day-labels span {
+  padding: 6px 0;
+  letter-spacing: 2px;
+}
+
+.date-grid {
+  gap: 0;
+}
+
+.date-cell {
+  min-height: 72px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 10px;
+  border-right: 1px solid #4dbf62;
+  border-bottom: 1px solid #4dbf62;
+  font-size: 0.95rem;
+}
+
+.date-cell:nth-child(7n) {
+  border-right: none;
+}
+
+.date-cell:nth-last-child(-n + 7) {
+  border-bottom: none;
+}
+
+.prev-month,
+.next-month {
+  color: #5c7a61;
+}
+
+@media (max-width: 900px) {
+  .date-cell {
+    min-height: 58px;
+    padding: 8px;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .month-title {
+    font-size: 1.6rem;
+  }
+
+  .date-cell {
+    min-height: 48px;
+    padding: 6px;
+    font-size: 0.8rem;
+  }
+}
