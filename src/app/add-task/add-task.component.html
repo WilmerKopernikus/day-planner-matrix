@@ -9,19 +9,17 @@
     </select>
   </div>
 
-  <div class="focus-area-row">
-    <label for="subProjectNameInput">Enter sub-project name</label>
-    <div class="sub-project-controls">
-      <input
-        id="subProjectNameInput"
-        type="text"
-        [value]="newSubProjectName"
-        (input)="handleSubProjectNameChange($event)"
-        [disabled]="!selectedFocusArea"
-        placeholder="Enter sub-project name"
-      />
-      <button type="button" (click)="addSubProject()" [disabled]="!selectedFocusArea">Add Sub-Project</button>
-    </div>
+    <div class="sub-project-section">
+    <label class="visually-hidden" for="subProjectNameInput">Sub-project name</label>
+    <input
+      id="subProjectNameInput"
+      type="text"
+      [value]="newSubProjectName"
+      (input)="handleSubProjectNameChange($event)"
+      [disabled]="!selectedFocusArea"
+      placeholder="Enter sub-project name"
+    />
+    <button type="button" (click)="addSubProject()" [disabled]="!selectedFocusArea">Add Sub-Project</button>
   </div>
 
   @if (!selectedFocusArea) {
