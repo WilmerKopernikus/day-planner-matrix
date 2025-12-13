@@ -16,24 +16,12 @@ export class FocusAreasComponent {
   readonly focusAreas = this.taskStore.focusAreas;
   selectedArea: string | null = null;
   selectedSubProjectId: number | null = null;
-  newFocusArea = '';
   draggingArea: string | null = null;
   private dragImageElement: HTMLElement | null = null;
 
   selectArea(area: string) {
     this.selectedArea = area;
     this.selectedSubProjectId = null;
-  }
-
-  addFocusArea() {
-    const trimmed = this.newFocusArea.trim();
-    if (!trimmed) {
-      return;
-    }
-
-    this.taskStore.addFocusArea(trimmed);
-    this.newFocusArea = '';
-    this.selectArea(trimmed);
   }
 
   startDrag(area: string, event: DragEvent) {

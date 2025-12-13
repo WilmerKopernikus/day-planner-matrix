@@ -14,6 +14,7 @@ export class AddTaskComponent implements OnChanges {
   @Input() tasks: Task[] = [];
   newTaskName = '';
   newSubProjectName = '';
+  newFocusArea = '';
   selectedFocusArea = '';
   selectedSubProjectId: number | null = null;
 
@@ -23,7 +24,7 @@ export class AddTaskComponent implements OnChanges {
     subProjectId?: number | null;
   }>();
   @Output() addFocusArea = new EventEmitter<string>();
-    @Output() addSubProjectEvent = new EventEmitter<{
+  @Output() addSubProjectEvent = new EventEmitter<{
     name: string;
     focusArea: string;
   }>();
@@ -47,6 +48,19 @@ export class AddTaskComponent implements OnChanges {
       });
       this.newTaskName = '';
     }
+  }
+
+  addNewFocusArea() {
+    const trimmed = this.newFocusArea.trim();
+
+    if (!trimmed) {
+      return;
+    }
+
+    this.addFocusArea.emit(trimmed);
+    this.selectedFocusArea = trimmed;
+    this.selectedSubProjectId = null;
+    this.newFocusArea = '';
   }
 
   handleFocusAreaSelection(event: Event) {
@@ -80,6 +94,11 @@ export class AddTaskComponent implements OnChanges {
   handleSubProjectNameChange(event: Event) {
     const target = event.target as HTMLInputElement;
     this.newSubProjectName = target.value;
+  }
+
+  handleFocusAreaNameChange(event: Event) {
+    const target = event.target as HTMLInputElement;
+    this.newFocusArea = target.value;
   }
 
   availableSubProjects(): Task[] {

@@ -1,5 +1,11 @@
 <div class="add-task-form">
   <div class="focus-area-row">
+    <label for="newFocusAreaInput">Add Focus Area</label>
+    <input id="newFocusAreaInput" type="text" [value]="newFocusArea" (input)="handleFocusAreaNameChange($event)"
+      placeholder="Add a focus area" />
+    <button type="button" (click)="addNewFocusArea()" [disabled]="!newFocusArea.trim()">Add Focus Area</button>
+  </div>
+  <div class="focus-area-row">
     <label for="focusAreaSelect">Focus Area</label>
     <select id="focusAreaSelect" [value]="selectedFocusArea" (change)="handleFocusAreaSelection($event)">
       <option value="" disabled>Select focus area</option>
@@ -9,16 +15,10 @@
     </select>
   </div>
 
-    <div class="sub-project-section">
+  <div class="sub-project-section">
     <label class="visually-hidden" for="subProjectNameInput">Sub-project name</label>
-    <input
-      id="subProjectNameInput"
-      type="text"
-      [value]="newSubProjectName"
-      (input)="handleSubProjectNameChange($event)"
-      [disabled]="!selectedFocusArea"
-      placeholder="Enter sub-project name"
-    />
+    <input id="subProjectNameInput" type="text" [value]="newSubProjectName" (input)="handleSubProjectNameChange($event)"
+      [disabled]="!selectedFocusArea" placeholder="Enter sub-project name" />
     <button type="button" (click)="addSubProject()" [disabled]="!selectedFocusArea">Add Sub-Project</button>
   </div>
 
@@ -35,7 +35,7 @@
       }
     </select>
   </div>
-  
+
   <app-task-name-input [(taskName)]="newTaskName" />
 
   <button (click)="addTask()">Add Task</button>
