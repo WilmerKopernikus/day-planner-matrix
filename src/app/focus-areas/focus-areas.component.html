@@ -11,16 +11,16 @@
   @if (viewMode === 'focusAreas') {
   <div class="focus-area-buttons">
     @for (area of focusAreas(); track area) {
-        <button class="task-button" type="button" [class.dragging]="area === draggingArea" (click)="selectArea(area)"
-      draggable="true" (dragstart)="startDrag(area, $event)" (dragend)="endDrag()"
-      (dragover)="handleDragOver($event)" (drop)="dropArea(area)">
+    <button class="task-button" type="button" [class.dragging]="area === draggingArea" (click)="selectArea(area)"
+      draggable="true" (dragstart)="startDrag(area, $event)" (dragend)="endDrag()" (dragover)="handleDragOver($event)"
+      (drop)="dropArea(area)">
       {{ area }}
       <span class="delete-icon" (click)="deleteFocusArea(area); $event.stopPropagation()"
         aria-label="Delete focus area">×</span>
     </button>
     }
   </div>
-   }
+  }
 
   @if (viewMode === 'subProjects' && selectedArea) {
   <div class="navigation-row">
@@ -33,6 +33,9 @@
         @for (subProject of subProjectsForSelectedArea(); track subProject.id) {
         <div>
           <button class="task-button" type="button" [class.selected]="subProject.id === selectedSubProjectId"
+            [class.dragging]="subProject.id === draggingSubProjectId" draggable="true"
+            (dragstart)="startSubProjectDrag(subProject.id, $event)" (dragend)="endSubProjectDrag()"
+            (dragover)="handleDragOver($event)" (drop)="dropSubProject(subProject.id)"
             (click)="selectSubProject(subProject.id)">
             {{ subProject.name }}
             <span class="delete-icon" (click)="deleteSubProject(subProject.id, $event)"
@@ -41,14 +44,14 @@
         </div>
         }
       </div>
-            @if (!subProjectsForSelectedArea().length) {
+      @if (!subProjectsForSelectedArea().length) {
       <p class="empty-state">No sub-projects yet.</p>
       }
     </div>
   </div>
   }
 
-    @if (viewMode === 'tasks' && selectedSubProjectId) {
+  @if (viewMode === 'tasks' && selectedSubProjectId) {
   <div class="navigation-row">
     <button type="button" class="link-button" (click)="goBackToSubProjects()">← Back to Sub-Projects</button>
   </div>
@@ -57,7 +60,9 @@
     <div class="focus-area-tasks">
       @for (task of tasksForSelectedSubProject(); track task.id) {
       <div>
-        <button class="task-button" type="button">
+        <button class="task-button" type="button" [class.dragging]="task.id === draggingTaskId" draggable="true"
+          (dragstart)="startTaskDrag(task.id, $event)" (dragend)="endTaskDrag()" (dragover)="handleDragOver($event)"
+          (drop)="dropTask(task.id)">
           {{ task.name }}
           <span class="delete-icon" (click)="deleteTask(task.id); $event.stopPropagation()"
             aria-label="Delete task">×</span>
@@ -65,7 +70,8 @@
       </div>
       }
     </div>
-    
+
+
   </div>
   }
 
@@ -78,7 +84,9 @@
     <div class="focus-area-tasks">
       @for (task of tasksForSelectedArea(); track task.id) {
       <div>
-        <button class="task-button" type="button">
+        <button class="task-button" type="button" [class.dragging]="task.id === draggingTaskId" draggable="true"
+          (dragstart)="startTaskDrag(task.id, $event)" (dragend)="endTaskDrag()" (dragover)="handleDragOver($event)"
+          (drop)="dropTask(task.id)">
           {{ task.name }}
           <span class="delete-icon" (click)="deleteTask(task.id); $event.stopPropagation()"
             aria-label="Delete task">×</span>

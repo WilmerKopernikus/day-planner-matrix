@@ -17,6 +17,8 @@ export class FocusAreasComponent {
   selectedArea: string | null = null;
   selectedSubProjectId: number | null = null;
   draggingArea: string | null = null;
+  draggingSubProjectId: number | null = null;
+  draggingTaskId: number | null = null;
   private dragImageElement: HTMLElement | null = null;
   viewMode: 'focusAreas' | 'subProjects' | 'tasks' | 'directTasks' = 'focusAreas';
 
@@ -65,6 +67,64 @@ export class FocusAreasComponent {
     this.removeDragImage();
   }
 
+   startSubProjectDrag(subProjectId: number, event: DragEvent) {
+    this.draggingSubProjectId = subProjectId;
+    event.dataTransfer?.setData('text/plain', `${subProjectId}`);
+    const sourceElement = event.currentTarget as HTMLElement | null;
+    const dragImage = sourceElement ? this.createDragImage(sourceElement) : null;
+
+    if (dragImage) {
+      const { width, height } = dragImage.getBoundingClientRect();
+      event.dataTransfer?.setDragImage(dragImage, width / 2, height / 2);
+    }
+  }
+
+  dropSubProject(targetSubProjectId: number) {
+    if (!this.draggingSubProjectId || this.draggingSubProjectId === targetSubProjectId) {
+      this.draggingSubProjectId = null;
+      this.removeDragImage();
+      return;
+    }
+
+    this.taskStore.reorderSubProjects(this.draggingSubProjectId, targetSubProjectId);
+    this.draggingSubProjectId = null;
+    this.removeDragImage();
+  }
+
+  endSubProjectDrag() {
+    this.draggingSubProjectId = null;
+    this.removeDragImage();
+  }
+
+  startTaskDrag(taskId: number, event: DragEvent) {
+    this.draggingTaskId = taskId;
+    event.dataTransfer?.setData('text/plain', `${taskId}`);
+    const sourceElement = event.currentTarget as HTMLElement | null;
+    const dragImage = sourceElement ? this.createDragImage(sourceElement) : null;
+
+    if (dragImage) {
+      const { width, height } = dragImage.getBoundingClientRect();
+      event.dataTransfer?.setDragImage(dragImage, width / 2, height / 2);
+    }
+  }
+
+  dropTask(targetTaskId: number) {
+    if (!this.draggingTaskId || this.draggingTaskId === targetTaskId) {
+      this.draggingTaskId = null;
+      this.removeDragImage();
+      return;
+    }
+
+    this.taskStore.reorderTasks(this.draggingTaskId, targetTaskId);
+    this.draggingTaskId = null;
+    this.removeDragImage();
+  }
+
+  endTaskDrag() {
+    this.draggingTaskId = null;
+    this.removeDragImage();
+  }
+  
   deleteFocusArea(area: string) {
     this.taskStore.removeFocusArea(area);
     const remainingAreas = this.focusAreas();

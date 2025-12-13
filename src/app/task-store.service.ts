@@ -58,7 +58,7 @@ private readonly initialTasks: Task[] = [];
     }
   }
 
-    addSubProject(subProjectData: { name: string; focusArea: string }) {
+  addSubProject(subProjectData: { name: string; focusArea: string }) {
     const trimmedName = subProjectData.name.trim();
 
     if (!trimmedName) {
@@ -139,6 +139,71 @@ private readonly initialTasks: Task[] = [];
   }
   private extractFocusAreas(tasks: Task[]): string[] {
     return Array.from(new Set(tasks.map((task) => task.focusArea)));
+  }
+
+   reorderSubProjects(sourceSubProjectId: number, targetSubProjectId: number) {
+    this.tasks.update((tasks) => {
+      const sourceIndex = tasks.findIndex((task) => task.id === sourceSubProjectId);
+      const targetIndex = tasks.findIndex((task) => task.id === targetSubProjectId);
+
+      if (sourceIndex === -1 || targetIndex === -1) {
+        return tasks;
+      }
+
+      const sourceTask = tasks[sourceIndex];
+      const targetTask = tasks[targetIndex];
+      const sameGroup =
+        sourceTask.isSubProject &&
+        targetTask.isSubProject &&
+        sourceTask.focusArea === targetTask.focusArea;
+
+      if (!sameGroup) {
+        return tasks;
+      }
+
+      const updated = [...tasks];
+      const [moved] = updated.splice(sourceIndex, 1);
+      const targetIndexAfterRemoval = updated.findIndex((task) => task.id === targetSubProjectId);
+      const insertIndex = sourceIndex < targetIndex ? targetIndexAfterRemoval + 1 : targetIndexAfterRemoval;
+
+      updated.splice(insertIndex, 0, moved);
+      return updated;
+    });
+
+    this.persistState();
+  }
+
+  reorderTasks(sourceTaskId: number, targetTaskId: number) {
+    this.tasks.update((tasks) => {
+      const sourceIndex = tasks.findIndex((task) => task.id === sourceTaskId);
+      const targetIndex = tasks.findIndex((task) => task.id === targetTaskId);
+
+      if (sourceIndex === -1 || targetIndex === -1) {
+        return tasks;
+      }
+
+      const sourceTask = tasks[sourceIndex];
+      const targetTask = tasks[targetIndex];
+      const sameGroup =
+        !sourceTask.isSubProject &&
+        !targetTask.isSubProject &&
+        sourceTask.focusArea === targetTask.focusArea &&
+        sourceTask.subProjectId === targetTask.subProjectId;
+
+      if (!sameGroup) {
+        return tasks;
+      }
+
+      const updated = [...tasks];
+      const [moved] = updated.splice(sourceIndex, 1);
+      const targetIndexAfterRemoval = updated.findIndex((task) => task.id === targetTaskId);
+      const insertIndex = sourceIndex < targetIndex ? targetIndexAfterRemoval + 1 : targetIndexAfterRemoval;
+
+      updated.splice(insertIndex, 0, moved);
+      return updated;
+    });
+
+    this.persistState();
   }
 
   private nextTaskId(): number {
