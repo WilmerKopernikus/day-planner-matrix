@@ -118,6 +118,48 @@
   opacity: 0.85;
 }
 
+.task-list {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.task-pill {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  background: #000000;
+  color: #e0ffe3;
+  padding: 8px 10px;
+  font-family: monospace;
+}
+
+.task-focus {
+  color: #77ff9b;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.task-subproject {
+  color: #a8ff9f;
+  font-size: 0.8rem;
+}
+
+.task-name {
+  font-weight: 400;
+}
+
+.empty-tasks {
+  margin: 8px 0 0;
+  color: #8bbf90;
+  font-size: 0.95rem;
+}
+
 @media (max-width: 700px) {
   .week-header {
     flex-direction: column;

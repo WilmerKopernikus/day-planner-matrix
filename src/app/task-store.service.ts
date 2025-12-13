@@ -206,6 +206,38 @@ private readonly initialTasks: Task[] = [];
     this.persistState();
   }
 
+   scheduleTask(taskId: number, isoDate: string) {
+    const trimmedDate = isoDate.trim();
+
+    if (!trimmedDate || !this.isValidISODate(trimmedDate)) {
+      return;
+    }
+
+    this.tasks.update((tasks) =>
+      tasks.map((task) =>
+        task.id === taskId ? { ...task, scheduledDate: trimmedDate } : task
+      )
+    );
+
+    this.persistState();
+  }
+
+  scheduleAndCompleteTask(taskId: number, isoDate: string) {
+    const trimmedDate = isoDate.trim();
+
+    if (!trimmedDate || !this.isValidISODate(trimmedDate)) {
+      return;
+    }
+
+    this.tasks.update((tasks) =>
+      tasks.map((task) =>
+        task.id === taskId ? { ...task, scheduledDate: trimmedDate, completed: true } : task
+      )
+    );
+
+    this.persistState();
+  }
+
   private nextTaskId(): number {
     const currentTasks = this.tasks();
     return currentTasks.length ? Math.max(...currentTasks.map((task) => task.id)) + 1 : 1;
@@ -251,5 +283,9 @@ private readonly initialTasks: Task[] = [];
 
   private hasLocalStorage(): boolean {
     return typeof globalThis !== 'undefined' && !!globalThis.localStorage;
+  }
+
+    private isValidISODate(value: string): boolean {
+    return /^\d{4}-\d{2}-\d{2}$/.test(value);
   }
 }

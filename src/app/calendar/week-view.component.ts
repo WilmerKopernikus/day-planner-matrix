@@ -2,11 +2,14 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Params, RouterModule } from '@angular/router';
+import { Task } from '../../task.model';
+import { TaskStoreService } from '../task-store.service';
 
 type WeekDay = {
   label: string;
   dateLabel: string;
   isoDate: string;
+  tasks: Task[];
 };
 
 type NavigationTarget = {
@@ -23,13 +26,15 @@ type NavigationTarget = {
 })
 export class WeekViewComponent {
   private readonly route = inject(ActivatedRoute);
+  private readonly taskStore = inject(TaskStoreService);
   private readonly params = toSignal(this.route.params, { initialValue: this.route.snapshot.params });
+  private readonly tasks = this.taskStore.tasks;
 
   readonly dayLabels = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
 
-  readonly viewModel = computed(() => this.buildViewModel(this.params()));
+  readonly viewModel = computed(() => this.buildViewModel(this.params(), this.tasks()));
 
-  private buildViewModel(params: Params): {
+  private buildViewModel(params: Params, tasks: Task[]): {
     weekNumber: number;
     monthNumber: number;
     year: number;
@@ -43,23 +48,25 @@ export class WeekViewComponent {
     if (!this.isValidISOWeek(parsedWeek, parsedYear)) {
       const today = new Date();
       const { week, weekYear } = this.getISOWeekInfo(today);
-      return this.buildWeekView(weekYear, week);
+      return this.buildWeekView(weekYear, week, tasks);
     }
 
-    return this.buildWeekView(parsedYear, parsedWeek);
+    return this.buildWeekView(parsedYear, parsedWeek, tasks);
   }
 
-  private buildWeekView(year: number, weekNumber: number) {
+  private buildWeekView(year: number, weekNumber: number, tasks: Task[]) {
     const startDate = this.getStartDateOfISOWeek(weekNumber, year);
     const days: WeekDay[] = [];
 
     for (let index = 0; index < 7; index += 1) {
       const date = new Date(startDate);
       date.setUTCDate(startDate.getUTCDate() + index);
+      const isoDate = date.toISOString().slice(0, 10);
       days.push({
         label: this.dayLabels[index],
         dateLabel: date.getUTCDate().toString(),
-        isoDate: date.toISOString().slice(0, 10),
+        isoDate,
+        tasks: this.tasksForDate(tasks, isoDate),
       });
     }
 
@@ -94,6 +101,18 @@ export class WeekViewComponent {
         commands: ['/calendar', nextYear, 'week', nextWeek],
       },
     };
+  }
+
+    private tasksForDate(tasks: Task[], isoDate: string): Task[] {
+    return tasks.filter((task) => task.scheduledDate === isoDate);
+  }
+
+  getSubProjectName(task: Task): string {
+    if (!task.subProjectId) {
+      return '';
+    }
+    const subProject = this.tasks().find((t) => t.id === task.subProjectId);
+    return subProject ? subProject.name : '';
   }
 
   private getStartDateOfISOWeek(week: number, year: number): Date {

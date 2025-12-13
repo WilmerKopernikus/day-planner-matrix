@@ -19,6 +19,8 @@ export class FocusAreasComponent {
   draggingArea: string | null = null;
   draggingSubProjectId: number | null = null;
   draggingTaskId: number | null = null;
+  selectedTaskId: number | null = null;
+  scheduledDates: Record<number, string> = {};
   private dragImageElement: HTMLElement | null = null;
   viewMode: 'focusAreas' | 'subProjects' | 'tasks' | 'directTasks' = 'focusAreas';
 
@@ -124,7 +126,7 @@ export class FocusAreasComponent {
     this.draggingTaskId = null;
     this.removeDragImage();
   }
-  
+
   deleteFocusArea(area: string) {
     this.taskStore.removeFocusArea(area);
     const remainingAreas = this.focusAreas();
@@ -143,6 +145,46 @@ export class FocusAreasComponent {
     if (this.selectedSubProjectId === taskId) {
       this.selectedSubProjectId = null;
     }
+    if (this.selectedTaskId === taskId) {
+      this.selectedTaskId = null;
+    }
+  }
+
+  toggleTaskActions(taskId: number) {
+    this.selectedTaskId = this.selectedTaskId === taskId ? null : taskId;
+  }
+
+  handleTaskDateChange(taskId: number, event: Event) {
+    const target = event.target as HTMLInputElement;
+    this.scheduledDates = { ...this.scheduledDates, [taskId]: target.value };
+  }
+
+  sendTaskToCalendar(taskId: number) {
+    const task = this.tasks().find((candidate) => candidate.id === taskId);
+    const selectedDate = this.scheduledDates[taskId] ?? task?.scheduledDate ?? '';
+
+    if (!task || !selectedDate) {
+      return;
+    }
+
+    this.taskStore.scheduleTask(taskId, selectedDate);
+    this.scheduledDates = { ...this.scheduledDates, [taskId]: selectedDate };
+  }
+
+  sendTaskToCalendarAndRemove(taskId: number) {
+    const task = this.tasks().find((candidate) => candidate.id === taskId);
+    const selectedDate = this.scheduledDates[taskId] ?? task?.scheduledDate ?? '';
+
+    if (!task || !selectedDate) {
+      return;
+    }
+
+    this.taskStore.scheduleAndCompleteTask(taskId, selectedDate);
+    this.selectedTaskId = null;
+  }
+
+  displayDateValue(task: Task): string {
+    return this.scheduledDates[task.id] ?? task.scheduledDate ?? '';
   }
 
   tasksForSelectedArea(): Task[] {
@@ -152,7 +194,7 @@ export class FocusAreasComponent {
 
     const subProjectIds = new Set(this.subProjectsForSelectedArea().map((task) => task.id));
     return this.tasks().filter(
-      (task) => task.focusArea === this.selectedArea && !subProjectIds.has(task.id) && !task.subProjectId
+      (task) => task.focusArea === this.selectedArea && !subProjectIds.has(task.id) && !task.subProjectId && !task.completed
     );
   }
 
@@ -196,7 +238,7 @@ export class FocusAreasComponent {
       return [];
     }
 
-    return this.tasks().filter((task) => task.subProjectId === this.selectedSubProjectId);
+    return this.tasks().filter((task) => task.subProjectId === this.selectedSubProjectId && !task.completed);
   }
 
     goBackToFocusAreas() {

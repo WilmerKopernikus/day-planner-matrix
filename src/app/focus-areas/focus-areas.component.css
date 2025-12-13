@@ -109,6 +109,84 @@
   margin-top: 10px;
 }
 
+.task-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.task-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.task-actions input[type='date'] {
+  background: #000;
+  color: #e8ffe8;
+  border: 1px solid #1c7a3d;
+  padding: 8px 10px;
+  border-radius: 4px;
+  font-family: monospace;
+}
+
+.send-button {
+  background: #0a3f1f;
+  color: #bfffc1;
+  border: 1px solid #1c7a3d;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-family: monospace;
+  transition: transform 0.15s ease, border-color 0.2s ease;
+}
+
+.send-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.send-button:not(:disabled):hover {
+  transform: translateY(-1px);
+  border-color: #bfffc1;
+}
+
+.complete-button {
+  background: #0a3f1f;
+  color: #bfffc1;
+  border: 1px solid #1c7a3d;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-family: monospace;
+  transition: transform 0.15s ease, border-color 0.2s ease;
+}
+
+.complete-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.complete-button:not(:disabled):hover {
+  transform: translateY(-1px);
+  border-color: #bfffc1;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 @media (max-width: 1024px) {
   .focus-areas-container {
     width: 80%;

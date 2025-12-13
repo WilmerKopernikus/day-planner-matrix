@@ -4,4 +4,6 @@ export interface Task {
   name: string;
   subProjectId?: number;
   isSubProject?: boolean;
+  scheduledDate?: string;
+  completed?: boolean;
 }

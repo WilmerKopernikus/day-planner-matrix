@@ -59,14 +59,26 @@
   <div class="sub-project-task-list">
     <div class="focus-area-tasks">
       @for (task of tasksForSelectedSubProject(); track task.id) {
-      <div>
-        <button class="task-button" type="button" [class.dragging]="task.id === draggingTaskId" draggable="true"
+      <div class="task-row">
+        <button class="task-button" type="button" [class.dragging]="task.id === draggingTaskId"
+          [class.selected]="task.id === selectedTaskId" draggable="true"
           (dragstart)="startTaskDrag(task.id, $event)" (dragend)="endTaskDrag()" (dragover)="handleDragOver($event)"
-          (drop)="dropTask(task.id)">
+          (drop)="dropTask(task.id)" (click)="toggleTaskActions(task.id)">
           {{ task.name }}
           <span class="delete-icon" (click)="deleteTask(task.id); $event.stopPropagation()"
             aria-label="Delete task">×</span>
         </button>
+        @if (task.id === selectedTaskId) {
+        <div class="task-actions">
+          <label class="visually-hidden" [attr.for]="'task-date-' + task.id">Calendar date for {{ task.name }}</label>
+          <input [id]="'task-date-' + task.id" type="date" [value]="displayDateValue(task)"
+            (change)="handleTaskDateChange(task.id, $event)" />
+          <button class="send-button" type="button" (click)="sendTaskToCalendar(task.id)"
+            [disabled]="!displayDateValue(task)">Send to calendar</button>
+          <button class="complete-button" type="button" (click)="sendTaskToCalendarAndRemove(task.id)"
+            [disabled]="!displayDateValue(task)">Complete & remove</button>
+        </div>
+        }
       </div>
       }
     </div>
@@ -83,14 +95,26 @@
   <div class="sub-project-task-list">
     <div class="focus-area-tasks">
       @for (task of tasksForSelectedArea(); track task.id) {
-      <div>
-        <button class="task-button" type="button" [class.dragging]="task.id === draggingTaskId" draggable="true"
+      <div class="task-row">
+        <button class="task-button" type="button" [class.dragging]="task.id === draggingTaskId"
+          [class.selected]="task.id === selectedTaskId" draggable="true"
           (dragstart)="startTaskDrag(task.id, $event)" (dragend)="endTaskDrag()" (dragover)="handleDragOver($event)"
-          (drop)="dropTask(task.id)">
+          (drop)="dropTask(task.id)" (click)="toggleTaskActions(task.id)">
           {{ task.name }}
           <span class="delete-icon" (click)="deleteTask(task.id); $event.stopPropagation()"
             aria-label="Delete task">×</span>
         </button>
+        @if (task.id === selectedTaskId) {
+        <div class="task-actions">
+          <label class="visually-hidden" [attr.for]="'task-date-' + task.id">Calendar date for {{ task.name }}</label>
+          <input [id]="'task-date-' + task.id" type="date" [value]="displayDateValue(task)"
+            (change)="handleTaskDateChange(task.id, $event)" />
+          <button class="send-button" type="button" (click)="sendTaskToCalendar(task.id)"
+            [disabled]="!displayDateValue(task)">Send to calendar</button>
+          <button class="complete-button" type="button" (click)="sendTaskToCalendarAndRemove(task.id)"
+            [disabled]="!displayDateValue(task)">Complete & remove</button>
+        </div>
+        }
       </div>
       }
     </div>
