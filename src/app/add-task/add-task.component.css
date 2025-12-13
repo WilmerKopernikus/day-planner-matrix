@@ -42,26 +42,23 @@
   background-color: #066338;
 }
 
-.sub-project-section {
+.inline-input-row {
   display: flex;
-  flex-direction: column;
+  align-items: center;
   gap: 8px;
 }
 
-.sub-project-section input {
+.inline-input-row input {
+  flex: 1;
   padding: 8px;
   background-color: #000000;
   color: #ffffff;
   border: 2px solid #087627;
-  width: 100%;
   font-family: monospace;
 }
 
-.sub-project-section select {
-  background-color: #000000;
-  color: #ffffff;
-  border: 2px solid #087627;
-  font-family: monospace;
+.inline-input-row app-task-name-input {
+  flex: 1;
 }
 
 .sub-project-section button {

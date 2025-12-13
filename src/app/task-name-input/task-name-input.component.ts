@@ -2,7 +2,8 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
 
 @Component({
   selector: 'app-task-name-input',
-  templateUrl: './task-name-input.component.html'
+  templateUrl: './task-name-input.component.html',
+  styleUrls: ['./task-name-input.component.css']
 })
 export class TaskNameInputComponent {
   @Input() taskName = ''

@@ -14,7 +14,7 @@
     </select>
   </div>
 
-  <div class="sub-project-section">
+  <div class="inline-input-row">
     <label class="visually-hidden" for="subProjectNameInput">Sub-project name</label>
     <input id="subProjectNameInput" type="text" [value]="newSubProjectName" (input)="handleSubProjectNameChange($event)"
       [disabled]="!selectedFocusArea" placeholder="Enter sub-project name" />
@@ -35,7 +35,8 @@
     </select>
   </div>
 
-  <app-task-name-input [(taskName)]="newTaskName" />
-
-  <button (click)="addTask()">Add Task</button>
+  <div class="inline-input-row">
+    <app-task-name-input class="task-name-input" [(taskName)]="newTaskName" />
+    <button type="button" (click)="addTask()">Add Task</button>
+  </div>
 </div>
