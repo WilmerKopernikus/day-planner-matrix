@@ -8,6 +8,11 @@ type MonthCell = {
   type: 'previous' | 'current' | 'next';
 };
 
+type NavigationTarget = {
+  label: string;
+  commands: (string | number)[];
+};
+
 @Component({
   selector: 'app-month-view',
   standalone: true,
@@ -19,6 +24,12 @@ export class MonthViewComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly params = toSignal(this.route.params, { initialValue: this.route.snapshot.params });
   readonly trackByIndex = (index: number) => index;
+
+    private readonly supportedMonths = [
+    { year: 2025, monthIndex: 10 },
+    { year: 2025, monthIndex: 11 },
+    ...Array.from({ length: 12 }, (_, monthIndex) => ({ year: 2026, monthIndex })),
+  ];
 
   readonly monthNames = [
     'January',
@@ -43,6 +54,8 @@ export class MonthViewComponent {
     monthName: string;
     year: number;
     cells: MonthCell[];
+    previous?: NavigationTarget;
+    next?: NavigationTarget;
   } {
     const monthIndex = Number(params['month']) - 1;
     const year = Number(params['year']);
@@ -51,9 +64,11 @@ export class MonthViewComponent {
       return this.buildFallback();
     }
 
-    const isSupportedMonth = (year === 2025 && monthIndex >= 10) || year === 2026;
+    const isSupportedMonth = this.supportedMonths.findIndex(
+      (entry) => entry.year === year && entry.monthIndex === monthIndex,
+    );
 
-    if (!isSupportedMonth) {
+    if (isSupportedMonth === -1) {
       return this.buildFallback();
     }
 
@@ -61,6 +76,7 @@ export class MonthViewComponent {
       monthName: `${this.monthNames[monthIndex]} ${year}`.toUpperCase(),
       year,
       cells: this.buildMonthCells(year, monthIndex),
+      ...this.buildNavigationTargets(year, monthIndex),
     };
   }
 
@@ -99,5 +115,32 @@ export class MonthViewComponent {
     }
 
     return cells;
+  }
+  private buildNavigationTargets(year: number, monthIndex: number): {
+    previous?: NavigationTarget;
+    next?: NavigationTarget;
+  } {
+    const currentIndex = this.supportedMonths.findIndex(
+      (entry) => entry.year === year && entry.monthIndex === monthIndex,
+    );
+
+    if (currentIndex === -1) {
+      return {};
+    }
+
+    const previousEntry = this.supportedMonths[currentIndex - 1];
+    const nextEntry = this.supportedMonths[currentIndex + 1];
+
+    return {
+      previous: previousEntry ? this.createNavigationTarget(previousEntry) : undefined,
+      next: nextEntry ? this.createNavigationTarget(nextEntry) : undefined,
+    };
+  }
+
+  private createNavigationTarget(entry: { year: number; monthIndex: number }): NavigationTarget {
+    return {
+      label: `${this.monthNames[entry.monthIndex]} ${entry.year}`,
+      commands: ['/calendar', entry.year, entry.monthIndex + 1],
+    };
   }
 }

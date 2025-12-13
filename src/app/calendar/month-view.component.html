@@ -3,20 +3,21 @@
 
   <h1 class="month-title">{{ vm.monthName }}</h1>
 
+  <div class="navigation" *ngIf="vm.previous || vm.next">
+    <a *ngIf="vm.previous" [routerLink]="vm.previous.commands" class="nav-link previous"
+      aria-label="Go to {{ vm.previous.label }}">← {{ vm.previous.label }}</a>
+    <a *ngIf="vm.next" [routerLink]="vm.next.commands" class="nav-link next" aria-label="Go to {{ vm.next.label }}">{{
+      vm.next.label }} →</a>
+  </div>
   <div class="calendar-surface">
     <div class="day-labels" aria-hidden="true">
       <span *ngFor="let label of dayLabels">{{ label }}</span>
     </div>
 
     <div class="date-grid" role="grid" [attr.aria-label]="vm.monthName">
-      <span
-        *ngFor="let cell of vm.cells; trackBy: trackByIndex"
-        class="date-cell"
-        [class.prev-month]="cell.type === 'previous'"
-        [class.next-month]="cell.type === 'next'"
-        role="gridcell"
-        >{{ cell.value }}</span
-      >
+      <span *ngFor="let cell of vm.cells; trackBy: trackByIndex" class="date-cell"
+        [class.prev-month]="cell.type === 'previous'" [class.next-month]="cell.type === 'next'" role="gridcell">{{
+        cell.value }}</span>
     </div>
   </div>
 </section>

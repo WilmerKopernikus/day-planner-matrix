@@ -25,6 +25,36 @@
   letter-spacing: 4px;
 }
 
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #77ff9b;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.nav-link:hover,
+.nav-link:focus-visible {
+  text-decoration: underline;
+}
+
+.nav-link.previous {
+  margin-right: auto;
+}
+
+.nav-link.next {
+  margin-left: auto;
+}
+
 .calendar-surface {
   background: linear-gradient(135deg, rgba(7, 26, 10, 0.95), rgba(5, 19, 9, 0.9));
   border: 1px solid #4dbf62;
