@@ -10,14 +10,23 @@
         <span *ngFor="let label of dayLabels">{{ label }}</span>
       </div>
       <div class="week-rows" role="grid" [attr.aria-label]="month.name">
-        <a *ngFor="let week of month.weeks" class="week-row" role="row"
+        <a
+          *ngFor="let week of month.weeks"
+          class="week-row"
+          role="row"
           [routerLink]="['/calendar', week.weekYear, 'week', week.weekNumber]"
-          [attr.aria-label]="month.name + ' week ' + week.weekNumber">
-          <span *ngFor="let day of week.days" class="date-cell" role="gridcell" [class.empty]="!day.isCurrentMonth">
+          [attr.aria-label]="month.name + ' week ' + week.weekNumber"
+        >
+          <span
+            *ngFor="let day of week.days"
+            class="date-cell"
+            role="gridcell"
+            [class.empty]="!day.isCurrentMonth"
+          >
             {{ day.isCurrentMonth ? day.label : '' }}
           </span>
+        </a>
+      </div>
     </article>
-  </div>
-  </a>
   </div>
 </section>
