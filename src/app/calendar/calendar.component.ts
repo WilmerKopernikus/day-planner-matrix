@@ -4,9 +4,9 @@ import { RouterModule } from '@angular/router';
 
 type CalendarMonth = {
   name: string;
-  days: (number | null)[];
   daysInMonth: number;
   monthIndex: number;
+  weeks: CalendarWeek[];
 };
 
 type YearCalendar = {
@@ -14,6 +14,17 @@ type YearCalendar = {
   months: CalendarMonth[];
 };
 
+type CalendarWeek = {
+  weekNumber: number;
+  weekYear: number;
+  days: CalendarDay[];
+};
+
+type CalendarDay = {
+  date: Date;
+  isCurrentMonth: boolean;
+  label: number;
+};
 
 @Component({
   selector: 'app-calendar',
@@ -51,20 +62,39 @@ export class CalendarComponent {
   }
 
   private createMonth(name: string, monthIndex: number, year: number): CalendarMonth {
-    const firstDay = new Date(year, monthIndex, 1);
-    const startIndex = (firstDay.getDay() + 6) % 7; // Monday-first layout
-    const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
-    const days: (number | null)[] = Array(startIndex).fill(null);
+    const firstDay = new Date(Date.UTC(year, monthIndex, 1));
+    const startIndex = (firstDay.getUTCDay() + 6) % 7; // Monday-first layout
+    const daysInMonth = new Date(Date.UTC(year, monthIndex + 1, 0)).getUTCDate();
+    const totalCells = Math.ceil((startIndex + daysInMonth) / 7) * 7;
 
-    for (let day = 1; day <= daysInMonth; day += 1) {
-      days.push(day);
+    const weeks: CalendarWeek[] = [];
+
+    for (let index = 0; index < totalCells; index += 1) {
+      const calendarDate = new Date(Date.UTC(year, monthIndex, 1 - startIndex + index));
+      const weekIndex = Math.floor(index / 7);
+      const { week, weekYear } = this.getISOWeekInfo(calendarDate);
+
+      if (!weeks[weekIndex]) {
+        weeks[weekIndex] = { weekNumber: week, weekYear, days: [] };
+      }
+
+      weeks[weekIndex].days.push({
+        date: calendarDate,
+        isCurrentMonth: calendarDate.getUTCMonth() === monthIndex,
+        label: calendarDate.getUTCDate(),
+      });
     }
 
-    const remainder = days.length % 7;
-    if (remainder !== 0) {
-      days.push(...Array(7 - remainder).fill(null));
-    }
+    return { name, weeks, daysInMonth, monthIndex };
+  }
 
-    return { name, days, daysInMonth, monthIndex };
+  private getISOWeekInfo(date: Date): { week: number; weekYear: number } {
+    const workingDate = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+    const day = workingDate.getUTCDay() || 7;
+    workingDate.setUTCDate(workingDate.getUTCDate() + 4 - day);
+    const yearStart = new Date(Date.UTC(workingDate.getUTCFullYear(), 0, 1));
+    const week = Math.ceil(((workingDate.getTime() - yearStart.getTime()) / 86400000 + 1) / 7);
+
+    return { week, weekYear: workingDate.getUTCFullYear() };
   }
 }

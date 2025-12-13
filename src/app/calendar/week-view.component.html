@@ -1,0 +1,33 @@
+<section class="week-view" *ngIf="viewModel() as vm">
+  <a routerLink="/calendar" class="back-link">← Back to calendar</a>
+
+  <header class="week-header">
+    <div class="week-meta">
+      <p class="week-number">WEEK {{ vm.weekNumber }}</p>
+      <p class="week-range">{{ vm.rangeLabel }}</p>
+      <p class="week-year">{{ vm.year }}</p>
+    </div>
+
+    <div class="mini-months" *ngIf="vm.months.length">
+      <div class="mini-title">In view</div>
+      <div class="mini-month-list">
+        <span class="mini-month" *ngFor="let month of vm.months">{{ month.label }}</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="week-navigation" *ngIf="vm.previous || vm.next">
+    <a *ngIf="vm.previous" [routerLink]="vm.previous.commands" class="nav-link previous"
+      aria-label="Go to {{ vm.previous.label }}">← {{ vm.previous.label }}</a>
+    <a *ngIf="vm.next" [routerLink]="vm.next.commands" class="nav-link next" aria-label="Go to {{ vm.next.label }}">{{
+      vm.next.label }} →</a>
+  </div>
+
+  <div class="week-days" role="list">
+    <article *ngFor="let day of vm.days" class="day-card" role="listitem">
+      <p class="day-label">{{ day.label }}</p>
+      <p class="day-date">{{ day.dateLabel }}</p>
+      <p class="day-iso">{{ day.isoDate }}</p>
+    </article>
+  </div>
+</section>

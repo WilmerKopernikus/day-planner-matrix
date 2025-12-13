@@ -1,0 +1,171 @@
+.week-view {
+  max-width: 960px;
+  margin: 0 auto;
+  color: #a4f7aa;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 12px;
+  color: #77ff9b;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.back-link:hover,
+.back-link:focus-visible {
+  text-decoration: underline;
+}
+
+.week-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-end;
+  margin-bottom: 16px;
+}
+
+.week-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.week-number {
+  font-size: 2rem;
+  letter-spacing: 3px;
+  margin: 0;
+}
+
+.week-range,
+.week-year {
+  margin: 0;
+  color: #77ff9b;
+  font-weight: 600;
+}
+
+.week-range {
+  font-size: 1rem;
+}
+
+.week-year {
+  font-size: 0.95rem;
+  opacity: 0.85;
+}
+
+.mini-months {
+  min-width: 200px;
+  display: grid;
+  gap: 6px;
+  justify-items: end;
+}
+
+.mini-title {
+  font-size: 0.9rem;
+  color: #77ff9b;
+}
+
+.mini-month-list {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.mini-month {
+  border: 1px solid #275a31;
+  border-radius: 6px;
+  padding: 6px 8px;
+  background: linear-gradient(135deg, rgba(7, 26, 10, 0.95), rgba(5, 19, 9, 0.9));
+  color: #dfffdc;
+  font-size: 0.85rem;
+  box-shadow: 0 0 10px rgba(104, 255, 66, 0.25);
+}
+
+.week-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #77ff9b;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.nav-link:hover,
+.nav-link:focus-visible {
+  text-decoration: underline;
+}
+
+.nav-link.previous {
+  margin-right: auto;
+}
+
+.nav-link.next {
+  margin-left: auto;
+}
+
+.week-days {
+  display: grid;
+  gap: 10px;
+}
+
+.day-card {
+  border: 1px solid #275a31;
+  background: rgba(2, 14, 6, 0.85);
+  padding: 12px;
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: 80px 1fr 1fr;
+  align-items: baseline;
+  box-shadow: 0 0 12px rgba(104, 255, 66, 0.25);
+}
+
+.day-label {
+  margin: 0;
+  color: #77ff9b;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.day-date,
+.day-iso {
+  margin: 0;
+  color: #dfffdc;
+}
+
+.day-iso {
+  justify-self: end;
+  font-family: 'IBM Plex Mono', 'Fira Code', 'SFMono-Regular', ui-monospace, monospace;
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+
+@media (max-width: 700px) {
+  .week-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .mini-months {
+    justify-items: flex-start;
+  }
+
+  .day-card {
+    grid-template-columns: 60px 1fr;
+    gap: 8px;
+  }
+
+  .day-iso {
+    justify-self: start;
+  }
+}
