@@ -18,10 +18,17 @@ export class FocusAreasComponent {
   selectedSubProjectId: number | null = null;
   draggingArea: string | null = null;
   private dragImageElement: HTMLElement | null = null;
+  viewMode: 'focusAreas' | 'subProjects' | 'tasks' | 'directTasks' = 'focusAreas';
 
   selectArea(area: string) {
     this.selectedArea = area;
     this.selectedSubProjectId = null;
+    
+    const hasSubProjects = this.tasks().some(
+      (task) => task.focusArea === area && task.isSubProject
+    );
+    
+    this.viewMode = hasSubProjects ? 'subProjects' : 'directTasks';
   }
 
   startDrag(area: string, event: DragEvent) {
@@ -67,6 +74,7 @@ export class FocusAreasComponent {
     }
     if (this.selectedArea === null) {
       this.selectedSubProjectId = null;
+      this.viewMode = 'focusAreas';
     }
   }
 
@@ -98,6 +106,7 @@ export class FocusAreasComponent {
 
   selectSubProject(subProjectId: number) {
     this.selectedSubProjectId = subProjectId;
+    this.viewMode = 'tasks';
   }
 
   deleteSubProject(subProjectId: number, event?: Event) {
@@ -111,6 +120,7 @@ export class FocusAreasComponent {
 
     if (this.selectedSubProjectId === subProjectId || !hasSelectedSubProject) {
       this.selectedSubProjectId = null;
+      this.viewMode = 'subProjects';
     }
   }
 
@@ -127,6 +137,17 @@ export class FocusAreasComponent {
     }
 
     return this.tasks().filter((task) => task.subProjectId === this.selectedSubProjectId);
+  }
+
+    goBackToFocusAreas() {
+    this.selectedArea = null;
+    this.selectedSubProjectId = null;
+    this.viewMode = 'focusAreas';
+  }
+
+  goBackToSubProjects() {
+    this.selectedSubProjectId = null;
+    this.viewMode = 'subProjects';
   }
   
   private createDragImage(source: HTMLElement): HTMLElement {

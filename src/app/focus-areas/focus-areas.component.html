@@ -1,27 +1,34 @@
 <div class="focus-areas-container">
 
+  @if (viewMode === 'focusAreas') {
   <h1 class="page-title">Focus Areas</h1>
+  } @else if (viewMode === 'subProjects' || viewMode === 'directTasks') {
+  <h1 class="page-title">{{ selectedArea }}</h1>
+  } @else if (viewMode === 'tasks') {
+  <h1 class="page-title">{{ selectedSubProjectName() }}</h1>
+  }
 
+  @if (viewMode === 'focusAreas') {
   <div class="focus-area-buttons">
     @for (area of focusAreas(); track area) {
-        <button class="task-button" type="button" [class.selected]="area === selectedArea"
-      [class.dragging]="area === draggingArea" (click)="selectArea(area)" draggable="true"
-      (dragstart)="startDrag(area, $event)" (dragend)="endDrag()" (dragover)="handleDragOver($event)"
-      (drop)="dropArea(area)">
+        <button class="task-button" type="button" [class.dragging]="area === draggingArea" (click)="selectArea(area)"
+      draggable="true" (dragstart)="startDrag(area, $event)" (dragend)="endDrag()"
+      (dragover)="handleDragOver($event)" (drop)="dropArea(area)">
       {{ area }}
       <span class="delete-icon" (click)="deleteFocusArea(area); $event.stopPropagation()"
         aria-label="Delete focus area">×</span>
     </button>
     }
   </div>
+   }
 
-  @if (selectedArea) {
+  @if (viewMode === 'subProjects' && selectedArea) {
+  <div class="navigation-row">
+    <button type="button" class="link-button" (click)="goBackToFocusAreas()">← Back to Focus Areas</button>
+  </div>
+
   <div class="focus-area-details">
-    <h2 class="page-title selected-area-title">{{ selectedArea }}</h2>
-
-    @if (subProjectsForSelectedArea().length) {
     <div class="sub-projects">
-      <h3 class="sub-projects-title">Sub-Projects</h3>
       <div class="focus-area-tasks">
         @for (subProject of subProjectsForSelectedArea(); track subProject.id) {
         <div>
@@ -34,25 +41,40 @@
         </div>
         }
       </div>
+            @if (!subProjectsForSelectedArea().length) {
+      <p class="empty-state">No sub-projects yet.</p>
+      }
     </div>
-    }
+  </div>
+  }
 
-    @if (selectedSubProjectId) {
-    <div class="sub-project-task-list">
-      <h3 class="page-title sub-project-title">{{ selectedSubProjectName() }}</h3>
-      <div class="focus-area-tasks">
-        @for (task of tasksForSelectedSubProject(); track task.id) {
-        <div>
-          <button class="task-button" type="button">
-            {{ task.name }}
-            <span class="delete-icon" (click)="deleteTask(task.id); $event.stopPropagation()"
-              aria-label="Delete task">×</span>
-          </button>
-        </div>
-        }
+    @if (viewMode === 'tasks' && selectedSubProjectId) {
+  <div class="navigation-row">
+    <button type="button" class="link-button" (click)="goBackToSubProjects()">← Back to Sub-Projects</button>
+  </div>
+
+  <div class="sub-project-task-list">
+    <div class="focus-area-tasks">
+      @for (task of tasksForSelectedSubProject(); track task.id) {
+      <div>
+        <button class="task-button" type="button">
+          {{ task.name }}
+          <span class="delete-icon" (click)="deleteTask(task.id); $event.stopPropagation()"
+            aria-label="Delete task">×</span>
+        </button>
       </div>
+      }
     </div>
-    } @else {
+    
+  </div>
+  }
+
+  @if (viewMode === 'directTasks' && selectedArea) {
+  <div class="navigation-row">
+    <button type="button" class="link-button" (click)="goBackToFocusAreas()">← Back to Focus Areas</button>
+  </div>
+
+  <div class="sub-project-task-list">
     <div class="focus-area-tasks">
       @for (task of tasksForSelectedArea(); track task.id) {
       <div>
@@ -64,6 +86,8 @@
       </div>
       }
     </div>
+    @if (!tasksForSelectedArea().length) {
+    <p class="empty-state">No tasks yet.</p>
     }
   </div>
   }
