@@ -4,6 +4,7 @@
 
 input {
   width: 100%;
+  box-sizing: border-box;
   padding: 8px;
   background-color: #000000;
   color: #ffffff;
