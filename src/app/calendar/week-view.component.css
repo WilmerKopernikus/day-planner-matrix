@@ -121,9 +121,8 @@
 
 .day-card {
   border: 1px solid #275a31;
-  background: rgba(2, 14, 6, 0.85);
+  background: rgb(0, 0, 0);
   padding: 12px;
-  border-radius: 10px;
   display: grid;
   grid-template-columns: 80px 1fr 1fr;
   align-items: baseline;

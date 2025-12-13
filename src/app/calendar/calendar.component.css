@@ -77,7 +77,6 @@
 .week-row {
   align-items: stretch;
   padding: 2px;
-  border-radius: 6px;
   text-decoration: none;
   color: inherit;
   transition: background-color 0.2s ease, outline-color 0.2s ease;
@@ -85,7 +84,7 @@
 
 .week-row:hover,
 .week-row:focus-visible {
-  background: linear-gradient(135deg, rgba(7, 26, 10, 0.95), rgba(5, 19, 9, 0.9));
+  background-color: rgba(0, 0, 0);
   outline: 1px solid #77ff9b;
   outline-offset: 2px;
 }
