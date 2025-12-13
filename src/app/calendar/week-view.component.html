@@ -3,16 +3,8 @@
 
   <header class="week-header">
     <div class="week-meta">
-      <p class="week-number">WEEK {{ vm.weekNumber }}</p>
-      <p class="week-range">{{ vm.rangeLabel }}</p>
-      <p class="week-year">{{ vm.year }}</p>
-    </div>
-
-    <div class="mini-months" *ngIf="vm.months.length">
-      <div class="mini-title">In view</div>
-      <div class="mini-month-list">
-        <span class="mini-month" *ngFor="let month of vm.months">{{ month.label }}</span>
-      </div>
+      <span class="month-number">{{ vm.monthNumber }}</span>
+      <span class="week-number">WEEK {{ vm.weekNumber }}</span>
     </div>
   </header>
 
@@ -25,8 +17,8 @@
 
   <div class="week-days" role="list">
     <article *ngFor="let day of vm.days" class="day-card" role="listitem">
-      <p class="day-label">{{ day.label }}</p>
       <p class="day-date">{{ day.dateLabel }}</p>
+      <p class="day-label">{{ day.label }}</p>
     </article>
   </div>
 </section>

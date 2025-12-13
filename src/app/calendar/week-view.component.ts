@@ -14,10 +14,6 @@ type NavigationTarget = {
   commands: (string | number)[];
 };
 
-type MiniMonth = {
-  label: string;
-};
-
 @Component({
   selector: 'app-week-view',
   standalone: true,
@@ -35,10 +31,9 @@ export class WeekViewComponent {
 
   private buildViewModel(params: Params): {
     weekNumber: number;
+    monthNumber: number;
     year: number;
     days: WeekDay[];
-    rangeLabel: string;
-    months: MiniMonth[];
     previous?: NavigationTarget;
     next?: NavigationTarget;
   } {
@@ -63,37 +58,18 @@ export class WeekViewComponent {
       date.setUTCDate(startDate.getUTCDate() + index);
       days.push({
         label: this.dayLabels[index],
-        dateLabel: date
-          .toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-          .toUpperCase(),
+        dateLabel: date.getUTCDate().toString(),
         isoDate: date.toISOString().slice(0, 10),
       });
     }
 
-    const endDate = new Date(startDate);
-    endDate.setUTCDate(startDate.getUTCDate() + 6);
-
     return {
       weekNumber,
+      monthNumber: startDate.getUTCMonth() + 1,
       year,
-      rangeLabel: `${this.formatShortDate(startDate)} – ${this.formatShortDate(endDate)}`,
       days,
-      months: this.buildMiniMonths(startDate),
       ...this.buildNavigation(startDate),
     };
-  }
-
-  private buildMiniMonths(startDate: Date): MiniMonth[] {
-    const formatter = new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' });
-    const labels = new Set<string>();
-
-    for (let index = 0; index < 7; index += 1) {
-      const date = new Date(startDate);
-      date.setUTCDate(startDate.getUTCDate() + index);
-      labels.add(formatter.format(date));
-    }
-
-    return Array.from(labels).map((label) => ({ label }));
   }
 
   private buildNavigation(startDate: Date): {
@@ -142,12 +118,6 @@ export class WeekViewComponent {
       return false;
     }
     return week >= 1 && week <= lastWeek;
-  }
-
-  private formatShortDate(date: Date): string {
-    return date
-      .toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-      .toUpperCase();
   }
 
   private getISOWeekInfo(date: Date): { week: number; weekYear: number } {

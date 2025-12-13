@@ -29,59 +29,22 @@
 
 .week-meta {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 12px;
 }
 
-.week-number {
+.month-number {
   font-size: 2rem;
   letter-spacing: 3px;
   margin: 0;
 }
 
-.week-range,
-.week-year {
+.week-number {
+  font-size: 1rem;
+  letter-spacing: 2px;
   margin: 0;
   color: #77ff9b;
-  font-weight: 600;
-}
-
-.week-range {
-  font-size: 1rem;
-}
-
-.week-year {
-  font-size: 0.95rem;
-  opacity: 0.85;
-}
-
-.mini-months {
-  min-width: 200px;
-  display: grid;
-  gap: 6px;
-  justify-items: end;
-}
-
-.mini-title {
-  font-size: 0.9rem;
-  color: #77ff9b;
-}
-
-.mini-month-list {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-}
-
-.mini-month {
-  border: 1px solid #275a31;
-  border-radius: 6px;
-  padding: 6px 8px;
-  background: linear-gradient(135deg, rgba(7, 26, 10, 0.95), rgba(5, 19, 9, 0.9));
-  color: #dfffdc;
-  font-size: 0.85rem;
-  box-shadow: 0 0 10px rgba(104, 255, 66, 0.25);
 }
 
 .week-navigation {
@@ -123,9 +86,9 @@
   border: 1px solid #275a31;
   background: rgb(0, 0, 0);
   padding: 12px;
-  display: grid;
-  grid-template-columns: 80px 1fr 1fr;
-  align-items: baseline;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   box-shadow: 0 0 12px rgba(104, 255, 66, 0.25);
 }
 
@@ -136,7 +99,13 @@
   letter-spacing: 1px;
 }
 
-.day-date,
+.day-date {
+  margin: 0;
+  color: #dfffdc;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
 .day-iso {
   margin: 0;
   color: #dfffdc;
@@ -157,11 +126,6 @@
 
   .mini-months {
     justify-items: flex-start;
-  }
-
-  .day-card {
-    grid-template-columns: 60px 1fr;
-    gap: 8px;
   }
 
   .day-iso {
