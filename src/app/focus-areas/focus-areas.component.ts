@@ -161,19 +161,19 @@ export class FocusAreasComponent {
 
   sendTaskToCalendar(taskId: number) {
     const task = this.tasks().find((candidate) => candidate.id === taskId);
-    const selectedDate = this.scheduledDates[taskId] ?? task?.scheduledDate ?? '';
+    const selectedDate = this.scheduledDates[taskId] ?? '';
 
     if (!task || !selectedDate) {
       return;
     }
 
     this.taskStore.scheduleTask(taskId, selectedDate);
-    this.scheduledDates = { ...this.scheduledDates, [taskId]: selectedDate };
+    this.scheduledDates = { ...this.scheduledDates, [taskId]: '' };
   }
 
   sendTaskToCalendarAndRemove(taskId: number) {
     const task = this.tasks().find((candidate) => candidate.id === taskId);
-    const selectedDate = this.scheduledDates[taskId] ?? task?.scheduledDate ?? '';
+    const selectedDate = this.scheduledDates[taskId] ?? '';
 
     if (!task || !selectedDate) {
       return;
@@ -184,7 +184,7 @@ export class FocusAreasComponent {
   }
 
   displayDateValue(task: Task): string {
-    return this.scheduledDates[task.id] ?? task.scheduledDate ?? '';
+    return this.scheduledDates[task.id] ?? '';
   }
 
   tasksForSelectedArea(): Task[] {

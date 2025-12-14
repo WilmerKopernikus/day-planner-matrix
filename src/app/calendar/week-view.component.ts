@@ -104,7 +104,7 @@ export class WeekViewComponent {
   }
 
     private tasksForDate(tasks: Task[], isoDate: string): Task[] {
-    return tasks.filter((task) => task.scheduledDate === isoDate);
+    return tasks.filter((task) => task.scheduledDates?.includes(isoDate));
   }
 
   getSubProjectName(task: Task): string {

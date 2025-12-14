@@ -1,0 +1,3 @@
+# Backend data - DO NOT COMMIT
+*.sqlite
+*.sqlite3
