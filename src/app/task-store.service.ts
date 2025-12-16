@@ -245,7 +245,7 @@ export class TaskStoreService {
     }
   }
 
-  reorderSubProjects(sourceSubProjectId: number, targetSubProjectId: number) {
+  async reorderSubProjects(sourceSubProjectId: number, targetSubProjectId: number) {
     this.tasks.update((tasks) => {
       const sourceIndex = tasks.findIndex((task) => task.id === sourceSubProjectId);
       const targetIndex = tasks.findIndex((task) => task.id === targetSubProjectId);
@@ -265,10 +265,19 @@ export class TaskStoreService {
       return updated;
     });
 
-    this.persistToLocalStorage();
+    if (this.useBackend()) {
+      try {
+        const taskIds = this.tasks().map((t) => t.id);
+        await firstValueFrom(this.api.reorderTasks(taskIds));
+      } catch (error) {
+        console.error('Failed to reorder sub-projects:', error);
+      }
+    } else {
+      this.persistToLocalStorage();
+    }
   }
 
-  reorderTasks(sourceTaskId: number, targetTaskId: number) {
+  async reorderTasks(sourceTaskId: number, targetTaskId: number) {
     this.tasks.update((tasks) => {
       const sourceIndex = tasks.findIndex((task) => task.id === sourceTaskId);
       const targetIndex = tasks.findIndex((task) => task.id === targetTaskId);
@@ -289,7 +298,16 @@ export class TaskStoreService {
       return updated;
     });
 
-    this.persistToLocalStorage();
+    if (this.useBackend()) {
+      try {
+        const taskIds = this.tasks().map((t) => t.id);
+        await firstValueFrom(this.api.reorderTasks(taskIds));
+      } catch (error) {
+        console.error('Failed to reorder tasks:', error);
+      }
+    } else {
+      this.persistToLocalStorage();
+    }
   }
 
   async scheduleTask(taskId: number, isoDate: string) {

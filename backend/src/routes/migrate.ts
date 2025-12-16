@@ -39,18 +39,20 @@ router.post('/', (req, res) => {
       db.run('INSERT INTO focus_areas (name, sort_order) VALUES (?, ?)', [name, index]);
     });
 
-    // Insert tasks
-    for (const task of data.tasks) {
+    // Insert tasks with sort_order based on array position
+    for (let i = 0; i < data.tasks.length; i++) {
+      const task = data.tasks[i];
       db.run(`
-        INSERT INTO tasks (id, name, focus_area, sub_project_id, is_sub_project, completed)
-        VALUES (?, ?, ?, ?, ?, ?)
+        INSERT INTO tasks (id, name, focus_area, sub_project_id, is_sub_project, completed, sort_order)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
       `, [
         task.id,
         task.name,
         task.focusArea,
         task.subProjectId || null,
         task.isSubProject ? 1 : 0,
-        task.completed ? 1 : 0
+        task.completed ? 1 : 0,
+        i
       ]);
 
       // Insert scheduled dates

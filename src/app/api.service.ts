@@ -10,6 +10,7 @@ export interface ApiTask {
   subProjectId?: number;
   isSubProject?: boolean;
   completed?: boolean;
+  sortOrder?: number;
   scheduledDates: string[];
 }
 
@@ -59,5 +60,10 @@ export class ApiService {
 
   reorderFocusAreas(order: string[]): Observable<{ success: boolean }> {
     return this.http.put<{ success: boolean }>(`${this.baseUrl}/focus-areas/reorder`, { order });
+  }
+
+  // Reorder tasks
+  reorderTasks(taskIds: number[]): Observable<{ success: boolean }> {
+    return this.http.put<{ success: boolean }>(`${this.baseUrl}/tasks/reorder`, { taskIds });
   }
 }

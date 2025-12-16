@@ -26,10 +26,18 @@ export async function initializeDatabase(): Promise<Database> {
       sub_project_id INTEGER,
       is_sub_project INTEGER DEFAULT 0,
       completed INTEGER DEFAULT 0,
+      sort_order INTEGER DEFAULT 0,
       created_at TEXT DEFAULT CURRENT_TIMESTAMP,
       updated_at TEXT DEFAULT CURRENT_TIMESTAMP
     )
   `);
+
+  // Add sort_order column if it doesn't exist (migration for existing databases)
+  try {
+    db.run(`ALTER TABLE tasks ADD COLUMN sort_order INTEGER DEFAULT 0`);
+  } catch {
+    // Column already exists
+  }
 
   db.run(`
     CREATE TABLE IF NOT EXISTS scheduled_dates (

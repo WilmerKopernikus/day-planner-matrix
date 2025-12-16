@@ -3,14 +3,37 @@ import { getDb, saveDatabase } from '../db';
 
 const router = Router();
 
+// PUT /api/tasks/reorder - Reorder tasks (must be before /:id routes)
+router.put('/reorder', (req, res) => {
+  try {
+    const db = getDb();
+    const { taskIds } = req.body;
+
+    if (!Array.isArray(taskIds)) {
+      res.status(400).json({ error: 'taskIds array is required' });
+      return;
+    }
+
+    taskIds.forEach((taskId: number, index: number) => {
+      db.run(`UPDATE tasks SET sort_order = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?`, [index, taskId]);
+    });
+
+    saveDatabase();
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error reordering tasks:', error);
+    res.status(500).json({ error: 'Failed to reorder tasks' });
+  }
+});
+
 // GET /api/tasks - Get all tasks
 router.get('/', (_req, res) => {
   try {
     const db = getDb();
     const tasks = db.exec(`
-      SELECT id, name, focus_area, sub_project_id, is_sub_project, completed
+      SELECT id, name, focus_area, sub_project_id, is_sub_project, completed, sort_order
       FROM tasks
-      ORDER BY id ASC
+      ORDER BY sort_order ASC, id ASC
     `);
 
     if (!tasks.length || !tasks[0].values.length) {
@@ -35,6 +58,7 @@ router.get('/', (_req, res) => {
         subProjectId: row[3] || undefined,
         isSubProject: row[4] === 1 || undefined,
         completed: row[5] === 1 || undefined,
+        sortOrder: row[6] as number || 0,
         scheduledDates,
       };
     });
@@ -57,10 +81,17 @@ router.post('/', (req, res) => {
       return;
     }
 
+    // Get max sort_order to place new task at the end
+    const maxOrderResult = db.exec(`SELECT MAX(sort_order) as max_order FROM tasks`);
+    const maxOrder = maxOrderResult.length && maxOrderResult[0].values.length
+      ? (maxOrderResult[0].values[0][0] as number | null) ?? -1
+      : -1;
+    const newOrder = maxOrder + 1;
+
     db.run(`
-      INSERT INTO tasks (name, focus_area, sub_project_id, is_sub_project)
-      VALUES (?, ?, ?, ?)
-    `, [name, focusArea, subProjectId || null, isSubProject ? 1 : 0]);
+      INSERT INTO tasks (name, focus_area, sub_project_id, is_sub_project, sort_order)
+      VALUES (?, ?, ?, ?, ?)
+    `, [name, focusArea, subProjectId || null, isSubProject ? 1 : 0, newOrder]);
 
     const result = db.exec('SELECT last_insert_rowid() as id');
     const newId = result[0].values[0][0] as number;
