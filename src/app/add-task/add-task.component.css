@@ -47,8 +47,9 @@
 
 .focus-area-row button:active,
 .add-task-form button:active {
-  box-shadow: 0px 0px 8px rgba(104, 255, 66, 0.5) inset;
+  box-shadow: 0px 0px 8px rgba(255, 255, 255, 0.5) inset;
   transform: translateY(1px);
+  border: 2px solid #ffffff;
 }
 
 .inline-input-row {
