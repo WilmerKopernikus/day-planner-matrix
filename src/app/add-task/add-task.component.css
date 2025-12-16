@@ -19,6 +19,8 @@
 .focus-area-row input,
 .focus-area-row select {
   flex: 1;
+  min-width: 0;
+  width: 100%;
   padding: 8px;
   background-color: #000000;
   color: #ffffff;
