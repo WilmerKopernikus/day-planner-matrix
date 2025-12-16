@@ -31,9 +31,9 @@
 .focus-area-row button,
 .add-task-form button {
   padding: 8px 12px;
-  background-color: #004a2a;
+  background-color: #000000;
   color: #bfffbd;
-  border: 1px solid #1c7a3d;
+  border: 2px solid #087627;
   cursor: pointer;
   font-weight: 600;
   transition: background-color 0.2s ease;
@@ -41,7 +41,7 @@
 
 .focus-area-row button:hover,
 .add-task-form button:hover {
-  background-color: #066338;
+   box-shadow: 0px 0px 12px rgba(104, 255, 66, 0.781);
 }
 
 .inline-input-row {
