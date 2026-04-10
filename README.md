@@ -1,4 +1,4 @@
-# The Matrix Labyrinth
+# Digital Agenda
 
 > This document is available in two languages. The German version starts below the English section.
 
@@ -8,7 +8,7 @@
 
 ### Overview
 
-The Matrix Labyrinth is a personal productivity application built with Angular 21. It provides a structured way to manage tasks through a system of focus areas, sub-projects, and a daily planner. The application includes a calendar view with both weekly and monthly perspectives, allowing the user to schedule and track tasks over time.
+Digital Agenda is a personal productivity application built with Angular 21. It provides a structured way to manage tasks through a system of focus areas, sub-projects, and a daily planner. The application includes a calendar view with both weekly and monthly perspectives, allowing the user to schedule and track tasks over time.
 
 The project was developed to practice full-stack web development with Angular on the frontend and a REST API on the backend, while also demonstrating deployment on a static hosting platform without a persistent server.
 
@@ -118,7 +118,7 @@ All subsequent reads and writes follow the same path: backend when available, lo
 
 ### Uberblick
 
-The Matrix Labyrinth ist eine personliche Produktivitatsanwendung, entwickelt mit Angular 21. Sie bietet eine strukturierte Moglichkeit, Aufgaben mithilfe eines Systems aus Schwerpunktbereichen, Teilprojekten und einem Tagesplaner zu verwalten. Die Anwendung enthalt eine Kalenderansicht in Wochen- und Monatsform, mit der der Nutzer Aufgaben zeitlich einplanen und verfolgen kann.
+Digital Agenda ist eine personliche Produktivitatsanwendung, entwickelt mit Angular 21. Sie bietet eine strukturierte Moglichkeit, Aufgaben mithilfe eines Systems aus Schwerpunktbereichen, Teilprojekten und einem Tagesplaner zu verwalten. Die Anwendung enthalt eine Kalenderansicht in Wochen- und Monatsform, mit der der Nutzer Aufgaben zeitlich einplanen und verfolgen kann.
 
 Das Projekt wurde entwickelt, um die Full-Stack-Webentwicklung mit Angular im Frontend und einer REST-API im Backend zu uben und gleichzeitig die Bereitstellung auf einer statischen Hosting-Plattform ohne dauerhaften Server zu demonstrieren.
 
